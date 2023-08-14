@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Event
+from .models import Event, AppUser
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .forms import LoginForm
 # Create your views here.
 
@@ -34,4 +34,13 @@ def login_user(request):
         return render(request, 'login.html', {'form': form})
 
 def logout_user(request):
-        pass
+    logout(request)
+    return redirect('/')
+
+def artist_listing(request):
+    artists = AppUser.objects.filter(is_artist=True)
+    return render(request, 'artist_listing.html', {'artists': artists})
+
+def organizer_listing(request):
+    organizers = AppUser.objects.filter(is_organizer=True)
+    return render(request, 'organizer_listing.html', {'organizers': organizers})

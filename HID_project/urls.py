@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 import project_app.views as views
 
 urlpatterns = [
-    path('index/', views.index, name="index"),
+    path('index/', RedirectView.as_view(url='index/', permanent=False)),
+    path('', views.index, name="index"),
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
+    path('organizers/', views.organizer_listing, name="organizer_listing"),
+    path('artists/', views.artist_listing, name="artist_listing"),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

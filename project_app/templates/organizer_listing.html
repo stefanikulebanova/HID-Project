@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %} {% block content %}
+<div class="row mt-4 card-group mx-5 align-content-center">
+    <ul>
+        {% for organizer in organizers %}
+        <li>{{ organizer.name }} {{ organizer.surname }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+{% endblock %}
