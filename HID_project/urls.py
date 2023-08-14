@@ -28,5 +28,8 @@ urlpatterns = [
     path('logout/', views.logout_user, name="logout"),
     path('organizers/', views.organizer_listing, name="organizer_listing"),
     path('artists/', views.artist_listing, name="artist_listing"),
+    path('purchase_confirm/', views.purchase_confirm, name="purchase_confirm"),
+    path('application_confirm/', views.application_confirm, name="application_confirm"),
+    path('buy_ticket/<int:event_id>/', views.buy_ticket, name='buy_ticket'),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
