@@ -22,5 +22,7 @@ import project_app.views as views
 
 urlpatterns = [
     path('index/', views.index, name="index"),
+    path('login/', views.login_user, name="login"),
+    path('logout/', views.logout_user, name="logout"),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

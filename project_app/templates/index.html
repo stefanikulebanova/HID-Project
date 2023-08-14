@@ -11,6 +11,11 @@
   {% load static %}
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
 </head>
+<style>
+.main-text{
+  color: #35706F;
+}
+</style>
 <body class="grey">
 <!--navbar-->
 <nav class="navbar navbar-light main-color d-flex justify-content-between">
@@ -22,14 +27,27 @@
     <div class="col mx-n3">
       <i class="bi bi-question gold rounded"></i>
     </div>
-    <div class="mx-2 gold rounded px-2">
+    {% if user.is_authenticated %}
+     <div class="mx-2 gold rounded px-2">
       <i class="bi bi-ticket-detailed-fill"></i>
       My Tickets
     </div>
-    <div class="mr-3 whited rounded px-2">
-      <i class="bi bi-person-fill"></i>
-      username
+    <div class="dropdown">
+      <button class="btn dropdown-toggle mr-3 whited rounded py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <i class="bi bi-person-fill"></i>username
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="{% url 'logout' %}">Logout
+        </a>
+        <a class="dropdown-item" href="#">My Profile
+        </a>
+      </div>
     </div>
+    {% else %}
+    <div class="mr-3 whited rounded px-2">
+      <button class="btn rounded btn-outline-info">Login!</button>
+    </div>
+    {% endif %}
   </div>
 </nav>
 <!--content-->
@@ -56,11 +74,18 @@
      {% for event in events %}
     <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
       <div class="card-header">
+        <h5 class="card-title main-text">{{event.title}}</h5>
          <img src="{{MEDIA_URL}}{{event.image.url}}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
       </div>
       <div class="card-body">
-         <h5 class="card-title">{{event.title}}</h5>
-         <p class="card-text">{{event.date}}</p>
+        <p class="card-text">{{event.description}}</p>
+        <button class="btn rounded main-color p-0" style="width: 100%;">See more details..</button>
+        <div class="row py-1 px-3 justify-content-center">
+          {% if user.is_authenticated and user.is_artist == "True" %}
+           <button class="btn rounded btn-outline-dark col p-0" style="font-size: 15px;">Apply for this event!</button>
+           {% endif %}
+          <button class="btn rounded gold ml-3 col-4 p-0">Buy ticket</button>
+        </div>
       </div>
     </div>
       {% endfor %}
