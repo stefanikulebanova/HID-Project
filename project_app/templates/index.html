@@ -55,11 +55,13 @@
   <div class="row mt-4 card-group mx-5 align-content-center">
      {% for event in events %}
     <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
-      <img src="{{MEDIA_URL}}{{event.image.url}}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
-          <div class="card-body">
-            <h5 class="card-title">{{event.title}}</h5>
-            <p class="card-text">{{event.date}}</p>
-          </div>
+      <div class="card-header">
+         <img src="{{MEDIA_URL}}{{event.image.url}}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
+      </div>
+      <div class="card-body">
+         <h5 class="card-title">{{event.title}}</h5>
+         <p class="card-text">{{event.date}}</p>
+      </div>
     </div>
       {% endfor %}
   </div>
