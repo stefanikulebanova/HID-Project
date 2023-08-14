@@ -23,6 +23,7 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     image = models.ImageField(upload_to="events", default="./templates/img.png")
     date = models.DateTimeField()
+    description = models.CharField(max_length=300, default="Description for event. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor... ")
     available_tickets = models.IntegerField()
     artists = models.ManyToManyField(AppUser, related_name="artists")
     organizer = models.ForeignKey(AppUser, related_name="organizer", on_delete=models.CASCADE)
