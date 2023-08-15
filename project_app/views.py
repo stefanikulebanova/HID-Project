@@ -1,6 +1,8 @@
+import datetime
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event, AppUser
+from .models import Event, AppUser, Ticket
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .forms import LoginForm
@@ -66,12 +68,27 @@ def buy_ticket(request, event_id):
 
     if request.method == 'POST':
         number_of_tickets = request.POST.get('number_of_tickets')
-        print("Event ID:", event_id)
-        print("Number of Tickets:", number_of_tickets)
-
         event.available_tickets -= int(number_of_tickets)
         event.save()
-        #TODO: Create Ticket for the event
+
+        print(event)
+        print(AppUser)
+        print(datetime.date.today())
+
+        print(request.user.pk)
+
+        app_user = get_object_or_404(AppUser, pk=request.user.pk)
+
+        ticket = Ticket(event=event, user_profile=app_user)
+        ticket.save()
+
         return redirect('purchase_confirm')
 
     return render(request, 'buy_ticket.html', {'event': event})
+
+
+def tickets(request):
+    user = get_object_or_404(AppUser, pk=request.user.pk)
+    tickets_by_user = Ticket.objects.filter(user_profile=user)
+
+    return render(request, 'tickets.html', {'tickets': tickets_by_user})
