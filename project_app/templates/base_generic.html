@@ -31,7 +31,7 @@
             </div>
             {% if user.is_authenticated %}
             <div class="mx-2 gold rounded px-2">
-                <i class="bi bi-ticket-detailed-fill"></i> My Tickets
+                <i class="bi bi-ticket-detailed-fill"></i> <a href="{% url 'tickets' %}" style="color: black">My Tickets</a>
             </div>
             <div class="dropdown">
                 <button class="btn dropdown-toggle mr-3 whited rounded py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

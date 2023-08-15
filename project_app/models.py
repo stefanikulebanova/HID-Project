@@ -30,8 +30,8 @@ class Event(models.Model):
 class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_profile = models.ForeignKey(AppUser, on_delete=models.CASCADE)
-    purchase_date = models.DateTimeField
-    qr_code = models.ImageField(upload_to="ticket_qr")
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    qr_code = models.ImageField(upload_to="ticket_qr", default="./static/qrcode.png")
 
 
 

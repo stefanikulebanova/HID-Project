@@ -32,5 +32,6 @@ urlpatterns = [
     path('purchase_confirm/', views.purchase_confirm, name="purchase_confirm"),
     path('application_confirm/', views.application_confirm, name="application_confirm"),
     path('buy_ticket/<int:event_id>/', views.buy_ticket, name='buy_ticket'),
+    path('tickets/', views.tickets, name='tickets'),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
