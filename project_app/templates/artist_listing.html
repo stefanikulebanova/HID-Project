@@ -10,9 +10,6 @@
             <p class="card-text">{{artist.bio}}</p>
             <button class="btn rounded main-color p-0" style="width: 100%;">Go to artist's profile page</button>
             <div class="row py-1 px-3 justify-content-center">
-                {% if user.is_authenticated and user.is_artist %}
-                <button class="btn rounded btn-outline-dark col p-0" style="font-size: 15px;">Apply for this event!</button> {% endif %}
-                <button class="btn rounded gold ml-3 col-4 p-0">Buy ticket</button>
             </div>
         </div>
     </div>

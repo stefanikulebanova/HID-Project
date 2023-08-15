@@ -19,7 +19,7 @@ class AppUser(AbstractUser):
 class Event(models.Model):
     title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="events", default="events/event1.png")
+    image = models.ImageField(upload_to="events", default="events/event1.jpg")
     date = models.DateTimeField()
     description = models.CharField(max_length=300, default="Description for event. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor... ")
     available_tickets = models.IntegerField()
