@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event, AppUser
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from .forms import LoginForm
+from django.contrib.auth.forms import UserCreationForm
+from .forms import LoginForm, RegisterForm
 
 
 # Create your views here.
@@ -40,6 +41,16 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
+def register_user(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegisterForm()
+    return render(request, 'register.html', {'form':form})
 
 
 def artist_listing(request):
