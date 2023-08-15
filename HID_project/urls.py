@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
+    path('register/', views.register_user, name="register"),
     path('organizers/', views.organizer_listing, name="organizer_listing"),
     path('artists/', views.artist_listing, name="artist_listing"),
     path('purchase_confirm/', views.purchase_confirm, name="purchase_confirm"),

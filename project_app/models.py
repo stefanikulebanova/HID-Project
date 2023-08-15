@@ -3,25 +3,23 @@ from django.db import models
 # Create your models here.
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
 
-class AppUser(models.Model):
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
+class AppUser(AbstractUser):
     phone_number = models.CharField(max_length=255)
     bio = models.CharField(max_length=400)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_organizer = models.BooleanField(default=False)
     is_artist = models.BooleanField(default=False)
+    image = models.ImageField(upload_to="users", default="users/person.png")
 
 
 class Event(models.Model):
     title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="events", default="./templates/img.png")
+    image = models.ImageField(upload_to="events", default="events/event1.png")
     date = models.DateTimeField()
     description = models.CharField(max_length=300, default="Description for event. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor... ")
     available_tickets = models.IntegerField()

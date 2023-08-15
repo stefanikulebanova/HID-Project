@@ -3,12 +3,12 @@
     {% for artist in artists %}
     <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
         <div class="card-header">
-            <h5 class="card-title main-text">{{artist.name}} {{artist.surname}}</h5>
-            <img src="{{MEDIA_URL}}{{event.image.url}}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
+            <h5 class="card-title main-text">{{artist.username}}</h5>
+            <img src="{{MEDIA_URL}}{{artist.image.url}}" class="card-img-top" alt="Artist image" style="max-width: 100%;">
         </div>
         <div class="card-body">
-            <p class="card-text">{{event.description}}</p>
-            <button class="btn rounded main-color p-0" style="width: 100%;">See more details..</button>
+            <p class="card-text">{{artist.bio}}</p>
+            <button class="btn rounded main-color p-0" style="width: 100%;">Go to artist's profile page</button>
             <div class="row py-1 px-3 justify-content-center">
                 {% if user.is_authenticated and user.is_artist %}
                 <button class="btn rounded btn-outline-dark col p-0" style="font-size: 15px;">Apply for this event!</button> {% endif %}
