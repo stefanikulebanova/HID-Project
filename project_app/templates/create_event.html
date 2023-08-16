@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %} {% block content %}
+<div class="main-color rounded mt-4 text-center">
+    <h5>Create New Event</h5>
+    <form class="row px-3 py-3" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-4">
+            <label for="title">Title: </label><input id="title" name="title" type="text">
+            </br>
+            <label for="date">Date: </label><input id="date" name="date" type="datetime-local">
+              </br>
+            <label for="description">Description: </label><input id="description" name="description" type="text">
+              </br>
+            <label for="location">Location: </label><input id="location" name="location" type="text">
+        </div>
+        <div class="col-4">
+            <input type="file" name="image" placeholder="Image">
+              </br>
+            <label for="artists">Add artists to event:</label>
+             <select id="artists" class="js-example-basic-multiple" name="artists[]" multiple="multiple">
+                 {% for user in artists %}
+                  <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                {% endfor %}
+             </select>
+        </div>
+        <div class="col-4">
+               <label for="ticketsNum">ticketsNum: </label><input id="ticketsNum" name="ticketsNum" type="number">
+              </br>
+               <label for="ticketsPrice">ticketsPrice: </label><input id="ticketsPrice" name="ticketsPrice" type="number">
+        </div>
+        <button class="mt-2" type="submit" value="Create Event">Create Event</button>
+    </form>
+</div>
+{% endblock %}

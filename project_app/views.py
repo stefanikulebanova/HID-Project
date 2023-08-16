@@ -103,3 +103,24 @@ def tickets(request):
     tickets_by_user = Ticket.objects.filter(user_profile=user)
 
     return render(request, 'tickets.html', {'tickets': tickets_by_user})
+
+
+def create_event(request):
+    if request.method == 'GET':
+        artists = AppUser.objects.filter(is_artist="True")
+        print(artists)
+        return render(request, 'create_event.html', {"artists": artists})
+    elif request.method == "POST":
+        title = request.POST['title']
+        loc = request.POST['location']
+        img = request.FILES['image']
+        date = request.POST['date']
+        desc = request.POST['description']
+        ticketnum = request.POST['ticketsNum']
+        artists = AppUser.objects.filter(id__in=request.POST.getlist('artists[]'))
+        organizer = request.user
+        event = Event.objects.create(title=title, location=loc, image=img, date=date, description=desc,
+                                     available_tickets=ticketnum, organizer=organizer)
+        event.artists.set(artists)
+        return redirect('index')
+
