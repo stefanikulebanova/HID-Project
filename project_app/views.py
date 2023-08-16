@@ -2,7 +2,7 @@ import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event, AppUser, Ticket
+from .models import Event, AppUser, Ticket, Application
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -43,6 +43,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
 
 def register_user(request):
     if request.method == 'POST':
@@ -122,5 +123,47 @@ def create_event(request):
         event = Event.objects.create(title=title, location=loc, image=img, date=date, description=desc,
                                      available_tickets=ticketnum, organizer=organizer)
         event.artists.set(artists)
+        event.save()
         return redirect('index')
+
+
+def event_apply(request, event_id):
+    event = Event.objects.get(id=event_id)
+
+    if request.method == 'GET':
+        return render(request, 'event_apply.html', {"event": event})
+
+    elif request.method == "POST":
+        motiv = request.POST['motivation']
+        num = request.POST['phone_num']
+        cv = request.FILES['cv']
+        occ = request.POST['occupation']
+        artist = request.user
+        application = Application.objects.create(motivation=motiv, phone_number=num, cv=cv, occupation=occ, event=event,
+                                                 artist=artist)
+        application.save()
+        return redirect('index')
+
+
+def my_events(request):
+    events = Event.objects.filter(organizer=request.user)
+    return render(request, 'my_events.html', {"events": events})
+
+
+def event_applications(request, event_id):
+    event = Event.objects.get(id=event_id)
+    apps = Application.objects.filter(event=event)
+    if request.method == 'GET':
+        return render(request, 'event_applications.html', {"applications": apps})
+
+    # elif request.method == "POST":
+    #     motiv = request.POST['motivation']
+    #     num = request.POST['phone_num']
+    #     cv = request.FILES['cv']
+    #     occ = request.POST['occupation']
+    #     artist = request.user
+    #     application = Application.objects.create(motivation=motiv, phone_number=num, cv=cv, occupation=occ, event=event,
+    #                                              artist=artist)
+    #     application.save()
+    #     return redirect('index')
 

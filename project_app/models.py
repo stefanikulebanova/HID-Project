@@ -34,6 +34,16 @@ class Ticket(models.Model):
     qr_code = models.ImageField(upload_to="ticket_qr", default="./static/qrcode.png")
 
 
+class Application(models.Model):
+    motivation = models.CharField(max_length=400)
+    cv = models.FileField(upload_to="cover_letters")
+    occupation = models.CharField(max_length=255)
+    apply_date = models.DateTimeField(auto_now_add=True)
+    phone_number = models.CharField(max_length=255)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    artist = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+
+
 
 
 
