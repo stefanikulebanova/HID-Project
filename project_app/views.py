@@ -178,6 +178,10 @@ def event_details(request, event_id):
     return render(request, 'event_details.html', {'event': event})
 
 
+def help(request):
+    return render(request, "help.html")
+
+
 def accept_application(request, application_id):
     application = Application.objects.get(id=application_id)
     application.status = "Accepted"

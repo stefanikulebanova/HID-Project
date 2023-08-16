@@ -27,47 +27,41 @@
         </a>
         <div class="row">
             <div class="col mx-n3">
-                <i class="bi bi-question gold rounded"></i>
+                <a href="{% url 'help' %}" style="color: black"><i class="bi bi-question gold rounded"></i></a>
             </div>
             {% if user.is_authenticated %}
             <div class="mx-2 gold rounded px-2">
                 <i class="bi bi-ticket-detailed-fill"></i> <a href="{% url 'tickets' %}" style="color: black">My Tickets</a>
             </div>
-              {% if user.is_organizer %}
-              <div class="mr-2 gold rounded px-2">
-               <i class="bi bi-calendar2-event-fill"></i> <a href="{% url 'my_events' %}" style="color: black">My Events</a>
+            {% if user.is_organizer %}
+            <div class="mr-2 gold rounded px-2">
+                <i class="bi bi-calendar2-event-fill"></i> <a href="{% url 'my_events' %}" style="color: black">My Events</a>
             </div>
-              {% endif %}
+            {% endif %}
             <div class="dropdown">
                 <button class="btn dropdown-toggle mr-3 whited rounded py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         <i class="bi bi-person-fill"></i>{{ user.username }}
-      </button>
+         <i class="bi bi-person-fill"></i>{{ user.username }}</button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout
         </a>
                     <a class="dropdown-item" href="#">My Profile
-        </a>
-                    {% if user.is_artist %}
-                    <a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a>
-                    {% endif %}
+        </a> {% if user.is_artist %}
+                    <a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a> {% endif %}
                 </div>
             </div>
             {% else %}
-            <div class="mr-5 mx-2 whited rounded">
-                <a href="{% url 'login' %}">
-                    <button class="btn rounded btn-outline-info">Login!</button>
-                </a>
+            <div class="mx-3 px-2 whited rounded">
+                <a href="{% url 'login' %}" style="color: black">Log In</a>
             </div>
-            <div class="mr-5 mx-2 whited rounded">
-                <a href="{% url 'register' %}">
-                    <button class="btn rounded btn-outline-info">Register!</button>
+            <div class="mr-3 px-2 whited rounded">
+                <a href="{% url 'register' %}" style="color: black">Register</a>
                 </a>
             </div>
             {% endif %}
         </div>
     </nav>
     <div class="mx-4">
-        <div class="mt-2 d-flex justify-content-center align-items-center">
+        <div class="mx-2 my-3 d-flex justify-content-center align-items-center">
             <div class="col gold rounded mx-5 text-center">
                 <a href="/artists" class="text-dark text-decoration-none">
                     <span class="">Artists</span>
