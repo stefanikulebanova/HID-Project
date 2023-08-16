@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', views.logout_user, name="logout"),
     path('register/', views.register_user, name="register"),
     path('organizers/', views.organizer_listing, name="organizer_listing"),
+    path('create_event/', views.create_event, name="create_event"),
     path('artists/', views.artist_listing, name="artist_listing"),
     path('purchase_confirm/', views.purchase_confirm, name="purchase_confirm"),
     path('application_confirm/', views.application_confirm, name="application_confirm"),

@@ -2,7 +2,7 @@
 <!--permissions-organizer-->
 {% if user.is_authenticated and user.is_organizer %}
 <div class="float-left rounded main-color px-2 mt-2">
-    <span class="my-1">Add Event <i class="bi bi-plus-square"></i></span>
+    <a href="create_event/" class="text-dark text-decoration-none"><span class="my-1">Add Event <i class="bi bi-plus-square"></i></span></a>
 </div>
 {% endif %}
 <!--cards-->
