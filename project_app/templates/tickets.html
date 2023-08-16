@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tickets</title>
-</head>
-<body>
+{% extends "base_generic.html" %} {% block content %}
 
 {% for ticket in tickets %}
     <p>{{ ticket.event.title }}</p>
@@ -12,5 +6,4 @@
     <p>{{ ticket.purchase_date.date }}</p>
     {% endfor %}
 
-</body>
-</html>
+{% endblock %}
