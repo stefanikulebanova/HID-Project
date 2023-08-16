@@ -40,6 +40,7 @@ class Application(models.Model):
     occupation = models.CharField(max_length=255)
     apply_date = models.DateTimeField(auto_now_add=True)
     phone_number = models.CharField(max_length=255)
+    status = models.CharField(max_length=150, default="Waiting")
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     artist = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 

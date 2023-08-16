@@ -1,4 +1,10 @@
 {% extends "base_generic.html" %} {% block content %}
+<div class="alert text-center alert-dismissible fade show" role="alert">
+    <p> {{ feedback }}</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 {% for app in applications %}
     <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
         <div class="card-header">
@@ -12,6 +18,8 @@
             <p class="card-text">CV: <a href="{{ MEDIA_URL }}{{app.cv.url}}">Download CV</a></p>
             <p class="card-text">Date: {{app.date}}</p>
         </div>
+        <a href="{% url 'accept_application' app.id %}" class="btn btn-success">Accept</a>
+        <a href="{% url 'deny_application' app.id %}" class="btn btn-danger">Deny</a>
     </div>
     {% endfor %}
 {% endblock %}
