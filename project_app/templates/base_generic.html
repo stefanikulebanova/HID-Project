@@ -42,8 +42,11 @@
                 <button class="btn dropdown-toggle mr-3 whited rounded py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          <i class="bi bi-person-fill"></i>{{ user.username }}</button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                    <a class="dropdown-item" href="#">My Profile</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout
+        </a>
+                    <a class="dropdown-item" href="#">My Profile
+        </a> {% if user.is_artist %}
+                    <a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a> {% endif %}
                 </div>
             </div>
             {% else %}

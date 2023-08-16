@@ -156,17 +156,6 @@ def event_applications(request, event_id):
     if request.method == 'GET':
         return render(request, 'event_applications.html', {"applications": apps})
 
-    # elif request.method == "POST":
-    #     motiv = request.POST['motivation']
-    #     num = request.POST['phone_num']
-    #     cv = request.FILES['cv']
-    #     occ = request.POST['occupation']
-    #     artist = request.user
-    #     application = Application.objects.create(motivation=motiv, phone_number=num, cv=cv, occupation=occ, event=event,
-    #                                              artist=artist)
-    #     application.save()
-    #     return redirect('index')
-
 
 def artist_profile(request, artist_id):
     artist = get_object_or_404(AppUser, pk=artist_id)
@@ -181,11 +170,39 @@ def organizer_profile(request, organizer_id):
     print(organizer_id)
     return render(request, 'organizer_profile.html', {'organizer': organizer})
 
+
 def event_details(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
     print(event_id)
     return render(request, 'event_details.html', {'event': event})
 
+
 def help(request):
     return render(request, "help.html")
+
+
+def accept_application(request, application_id):
+    application = Application.objects.get(id=application_id)
+    application.status = "Accepted"
+    application.save()
+    event = Event.objects.get(id=application.event.pk)
+    event.artists.add(request.user)
+    event.save()
+    apps = Application.objects.filter(event=event, status="Waiting")
+    return render(request, 'event_applications.html', {"applications": apps, "feedback": "Successfully accepted the application!"})
+
+
+def deny_application(request, application_id):
+    application = Application.objects.get(id=application_id)
+    application.status = "Denied"
+    application.save()
+    apps = Application.objects.filter(event=application.event, status="Waiting")
+    return render(request, 'event_applications.html',
+                  {"applications": apps, "feedback": "Successfully denied the application!"})
+
+
+def my_applications(request):
+    applications = Application.objects.filter(artist=request.user)
+    return render(request, 'my_applications.html', {"applications": applications})
+
