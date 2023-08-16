@@ -53,7 +53,7 @@ def register_user(request):
             return redirect('login')
     else:
         form = RegisterForm()
-    return render(request, 'register.html', {'form':form})
+    return render(request, 'register.html', {'form': form})
 
 
 def artist_listing(request):
@@ -167,3 +167,22 @@ def event_applications(request, event_id):
     #     application.save()
     #     return redirect('index')
 
+
+def artist_profile(request, artist_id):
+    artist = get_object_or_404(AppUser, pk=artist_id)
+
+    print(artist_id)
+    return render(request, 'artist_profile.html', {'artist': artist})
+
+
+def organizer_profile(request, organizer_id):
+    organizer = get_object_or_404(AppUser, pk=organizer_id)
+
+    print(organizer_id)
+    return render(request, 'organizer_profile.html', {'organizer': organizer})
+
+def event_details(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+
+    print(event_id)
+    return render(request, 'event_details.html', {'event': event})

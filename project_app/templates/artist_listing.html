@@ -1,20 +1,26 @@
 {% extends "base_generic.html" %} {% block content %}
-<div class="row mt-4 card-group mx-5 align-content-center">
-    {% for artist in artists %}
-    <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
-        <div class="card-header">
-            <h5 class="card-title main-text">{{artist.username}}</h5>
-            <img src="{{MEDIA_URL}}{{artist.image.url}}" class="card-img-top" alt="Artist image" style="max-width: 100%;">
-        </div>
-        <div class="card-body">
-            <p class="card-text">{{artist.bio}}</p>
-            <button class="btn rounded main-color p-0" style="width: 100%;">Go to artist's profile page</button>
-            <div class="row py-1 px-3 justify-content-center">
+    <div class="row mt-4 card-group mx-5 align-content-center">
+        {% for artist in artists %}
+            <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
+                <div class="card-header">
+                    <h5 class="card-title main-text">{{ artist.username }}</h5>
+                    <img src="{{ MEDIA_URL }}{{ artist.image.url }}" class="card-img-top" alt="Artist image"
+                         style="max-width: 100%;">
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ artist.bio }}</p>
+                    {#            <button class="btn rounded main-color p-0" style="width: 100%;"#}
+                    {#            href="{% url 'artist_profile' %}"#}
+                    {#            >Go to artist's profile page</button>#}
+                    <a class="btn rounded main-color p-0" style="width: 100%;" href="{% url 'artist_profile' artist.id %}">
+                        Go to artist's profile page
+                    </a>
+                    <div class="row py-1 px-3 justify-content-center">
+                    </div>
+                </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
 
 {% endblock %}

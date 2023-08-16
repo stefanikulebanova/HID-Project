@@ -8,7 +8,10 @@
         </div>
         <div class="card-body">
             <p class="card-text">{{organizer.bio}}</p>
-            <button class="btn rounded main-color p-0" style="width: 100%;">Go to organizer's profile page</button>
+{#            <button class="btn rounded main-color p-0" style="width: 100%;">Go to organizer's profile page</button>#}
+            <a class="btn rounded main-color p-0" style="width: 100%;" href="{% url 'organizer_profile' organizer.id %}">
+                        Go to organizer's profile page
+                    </a>
             <div class="row py-1 px-3 justify-content-center">
             </div>
         </div>
