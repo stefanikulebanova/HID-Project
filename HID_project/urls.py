@@ -37,8 +37,9 @@ urlpatterns = [
                   path('application_confirm/', views.application_confirm, name="application_confirm"),
                   path('buy_ticket/<int:event_id>/', views.buy_ticket, name='buy_ticket'),
                   path('tickets/', views.tickets, name='tickets'),
+                  path('help/', views.help, name='help'),
                   path('artist_profile/<int:artist_id>', views.artist_profile, name='artist_profile'),
                   path('organizer_profile/<int:organizer_id>', views.organizer_profile, name='organizer_profile'),
                   path('event_details/<int:event_id>', views.event_details, name='event_details'),
-                  path('admin/', admin.site.urls),
+                  path('admin/', admin.site.urls),                  
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

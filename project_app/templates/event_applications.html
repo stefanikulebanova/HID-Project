@@ -1,17 +1,15 @@
-{% extends "base_generic.html" %} {% block content %}
-{% for app in applications %}
-    <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
-        <div class="card-header">
-            {# <input type="hidden" name="event_id" value="{{ event.id }}">#}
-            <h5 class="card-title main-text">Applicant: {{app.artist.first_name}} {{app.artist.last_name}}</h5>
-        </div>
-        <div class="card-body">
-            <p class="card-text">Motivation: {{app.motivation}}</p>
-            <p class="card-text">Phone number : {{app.phone_number}}</p>
-            <p class="card-text">Occupation: {{app.occupation}}</p>
-            <p class="card-text">CV: <a href="{{ MEDIA_URL }}{{app.cv.url}}">Download CV</a></p>
-            <p class="card-text">Date: {{app.date}}</p>
-        </div>
+{% extends "base_generic.html" %} {% block content %} {% for app in applications %}
+<div class="col-4 card mr-4 px-2 py-3 rounded-lg">
+    <div class="card-header">
+        {# <input type="hidden" name="event_id" value="{{ event.id }}">#}
+        <h5 class="card-title main-text">Applicant: {{app.artist.first_name}} {{app.artist.last_name}}</h5>
     </div>
-    {% endfor %}
-{% endblock %}
+    <div class="card-body">
+        <p class="card-text">Motivation: {{app.motivation}}</p>
+        <p class="card-text">Phone number : {{app.phone_number}}</p>
+        <p class="card-text">Occupation: {{app.occupation}}</p>
+        <p class="card-text">CV: <a href="{{ MEDIA_URL }}{{app.cv.url}}">Download CV</a></p>
+        <p class="card-text">Date: {{app.apply_date}}</p>
+    </div>
+</div>
+{% endfor %} {% endblock %}

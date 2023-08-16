@@ -186,3 +186,6 @@ def event_details(request, event_id):
 
     print(event_id)
     return render(request, 'event_details.html', {'event': event})
+
+def help(request):
+    return render(request, "help.html")
