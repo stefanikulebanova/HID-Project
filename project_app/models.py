@@ -32,6 +32,7 @@ class Ticket(models.Model):
     user_profile = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     purchase_date = models.DateTimeField(auto_now_add=True)
     qr_code = models.ImageField(upload_to="ticket_qr", default="./static/qrcode.png")
+    price = models.IntegerField(default = 10)
 
 
 class Application(models.Model):
