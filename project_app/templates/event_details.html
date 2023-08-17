@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>Event ID: {{ event.id }}</p>
-<p>Title: {{ event.title }}</p>
-<p>Date: {{ event.date }}</p>
-<p>Location: {{ event.location }}</p>
-<p>Other info will be added</p>
-</body>
-</html>
+{% extends "base_generic.html" %} {% block content %}
+<div class="container rounded main-color">
+    <div class="row justify-content-center align-items-center" style="min-height: 50vh;">
+        <div class="col-md-8 py-5 text-center text-light">
+            <h1>{{ event.title }}</h1>
+            <h4>{{ event.location }}, {{ event.date.date|date:"d.m.Y" }}</h4>
+            <hr>
+            <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image" style="max-width: 70%;">
+            <div class="col-md-12 py-3 px-5 d-flex align-items-center justify-content-center text-center text-light" style="font-size: 1.1em">
+                {{ event.description }}
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

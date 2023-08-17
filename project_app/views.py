@@ -173,9 +173,8 @@ def organizer_profile(request, organizer_id):
 
 def event_details(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-
-    print(event_id)
-    return render(request, 'event_details.html', {'event': event})
+    tickets = Ticket.objects.filter(event=event)
+    return render(request, 'event_details.html', {'event': event, 'tickets': tickets})
 
 
 def help(request):
