@@ -1,83 +1,77 @@
 {% extends "base_generic.html" %} {% block content %}
 <div class="container">
     <div class="row rounded mt-1 d-flex justify-content-center align-items-center main-color">
-      <div class="col">
-        <div class="card border-0">
-          <div class="px-4 text-white d-flex justify-content-center align-items-end bg-dark">
-            <div class="col mt-3 text-center pr-0 ">
-             <img class="img-fluid float-right pr-0 profile" src="{{MEDIA.URL}}{{request.user.image.url}}" style="max-width: 70%; margin-bottom: -10%;" alt="Profile Image">
-            </div>
-            <div class="col ms-3">
-              <h5>{{ user.first_name }} {{user.last_name }}</h5>
-              {% if user.is_artist %}
-              <p>Artist</p>
-              {% else %}
-              <p>Organizer</p>
-              {% endif %}
-            </div>
-          </div>
-          <div class="p-4 text-black d-flex justify-content-center" style="background-color: #f8f9fa;">
-            <div class="d-flex justify-content-end text-center py-1">
-              <div>
-                <p class="mb-1 h5">253</p>
-                <p class="small text-muted mb-0">Posts</p>
-              </div>
-              <div class="px-3">
-                <p class="mb-1 h5">{{ event_num }}</p>
-                <p class="small text-muted mb-0">Events</p>
-              </div>
-            </div>
-          </div>
-          <div class="card-body p-4 text-black">
-            <div class="mb-5">
-              <p class="lead fw-normal mb-1">About</p>
-              <div class="p-4" style="background-color: #f8f9fa;">
-                <p class="font-italic mb-1">{{ user.bio }}</p>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <p class="lead fw-normal mb-0">Recent posts</p>
-              <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
-            </div>
-            <div class="">
-              {% if posts is not None %}
-                {% for post in posts %}
-                <div class=" card">
-                  <div class="card-header pb-2">
-                    <p class="mb-0">{{post.description}}</p>
-                  </div>
-                  <div class="card-body p-2">
-                    {% if post.extension == "jpg" or "jpeg" or "png" %}
-                    <img src="{{ MEDIA_URL }}{{ post.file.url }}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
-                    {% elif post.extension == "" %}
-
-                    {% endif %}
-                    <small class="text-muted float-right">{{post.date}}</small>
-                  </div>
+        <div class="col">
+            <div class="card border-0">
+                <div class="px-4 text-white d-flex justify-content-center align-items-end bg-dark">
+                    <div class="col mt-3 text-center pr-0">
+                        <img class="img-fluid float-right pr-0 profile" src="{{MEDIA.URL}}{{user.image.url}}" style="max-width: 70%; margin-bottom: -10%;" alt="Profile Image">
+                    </div>
+                    <div class="col ms-3">
+                        <h5>{{ user.first_name }} {{user.last_name }}</h5>
+                        {% if user.is_artist %}
+                        <p>Artist</p>
+                        {% else %}
+                        <p>Organizer</p>
+                        {% endif %}
+                    </div>
                 </div>
-                {% endfor %}
-              {% else %}
-              <p class="text-center">No posts yet.</p>
-              {% endif %}
-              {% if user.id == request.user.id %}
-              <div class="mt-5 d-flex rounded justify-content-center grey px-5">
-              <form class="grey p-2" action="{% url 'add_post' %}" method="post" enctype="multipart/form-data">
-                <h4 class="text-center">Add post<button class="btn btn-lg float-right p-0" type="submit"><i class="bi bi-plus-circle"></i></button></h4>
-                {% csrf_token %}
-                <div class="form-outline mb-4 mt-4">
-                  <label class="form-label text-muted" for="file">Upload File</label>
-                  <input type="file" id="file" name="file" class="form-control" />
+                <div class="p-4 text-black d-flex justify-content-center" style="background-color: #f8f9fa;">
+                    <div class="d-flex justify-content-end text-center py-1">
+                        <div>
+                            <p class="mb-1 h5">253</p>
+                            <p class="small text-muted mb-0">Posts</p>
+                        </div>
+                        <div class="px-3">
+                            <p class="mb-1 h5">{{ event_num }}</p>
+                            <p class="small text-muted mb-0">Events</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-outline mb-4">
-                  <textarea class="form-control" id="descr" name="descr" rows="4" placeholder="Description"></textarea>
+                <div class="card-body p-4 text-black">
+                    <div class="mb-5">
+                        <p class="lead fw-normal mb-1">About</p>
+                        <div class="p-4" style="background-color: #f8f9fa;">
+                            <p class="font-italic mb-1">{{ user.bio }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <p class="lead fw-normal mb-0">Recent posts</p>
+                        <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                    </div>
+                    <div class="">
+                        {% if posts is not None %} {% for post in posts %}
+                        <div class=" card">
+                            <div class="card-header pb-2">
+                                <p class="mb-0">{{post.description}}</p>
+                            </div>
+                            <div class="card-body p-2">
+                                {% if post.extension == "jpg" or "jpeg" or "png" %}
+                                <img src="{{ MEDIA_URL }}{{ post.file.url }}" class="card-img-top" alt="Cover image" style="max-width: 100%;"> {% elif post.extension == "" %} {% endif %}
+                                <small class="text-muted float-right">{{post.date}}</small>
+                            </div>
+                        </div>
+                        {% endfor %} {% else %}
+                        <p class="text-center">No posts yet.</p>
+                        {% endif %} {% if user.id == request.user.id %}
+                        <div class="mt-5 d-flex rounded justify-content-center grey px-5">
+                            <form class="grey p-2" action="{% url 'add_post' %}" method="post" enctype="multipart/form-data">
+                                <h4 class="text-center">Add post<button class="btn btn-lg float-right p-0" type="submit"><i class="bi bi-plus-circle"></i></button></h4>
+                                {% csrf_token %}
+                                <div class="form-outline mb-4 mt-4">
+                                    <label class="form-label text-muted" for="file">Upload File</label>
+                                    <input type="file" id="file" name="file" class="form-control" />
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <textarea class="form-control" id="descr" name="descr" rows="4" placeholder="Description"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
-              </form>
-                </div>
-              {% endif %}
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 {% endblock %}

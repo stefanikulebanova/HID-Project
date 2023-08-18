@@ -1,39 +1,34 @@
 {% extends "base_generic.html" %} {% block content %}
-<!--permissions-organizer-->
-{% if user.is_authenticated and user.is_organizer %}
-<div class="float-left rounded main-color px-2 mt-2">
-    <a href="create_event/" class="text-dark text-decoration-none"><span class="my-1">Add Event <i
-                    class="bi bi-plus-square"></i></span></a>
-</div>
-{% endif %}
-<!--cards-->
-<div class="row card-group mx-5 align-content-center">
-    {% for event in events %}
-    <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
-        <div class="card-header">
-            {# <input type="hidden" name="event_id" value="{{ event.id }}">#}
-            <h5 class="card-title main-text">{{ event.title }}</h5>
-            <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
-        </div>
-        <div class="card-body">
-            <p class="card-text">{{ event.description }}</p>
-            {# <button class="btn rounded main-color p-0" style="width: 100%;" #} {# href="{% url 'event_details' event.id %}" #} {#>See more details..</button>#}
-            <a class="btn rounded main-color p-0" style="width: 100%;" href="{% url 'event_details' event.id %}">
-                        See more details..
-                    </a>
-
-            <div class="row py-1 px-3 justify-content-center">
-                {% if user.is_authenticated and user.is_artist and request.user not in event.artists.all %}
-                <a href="{% url 'event_apply' event.id %}" class="text-dark text-decoration-none">
-                    <button class="btn rounded btn-outline-dark col p-0" style="font-size: 15px;">Apply for
-                                    this event!
-                                </button>
-                </a>
-                {% endif %}
-                <a class="btn rounded gold ml-3 col-5 p-0" href="{% url 'buy_ticket' event.id %}">Buy ticket</a>
+<div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for event in events %}
+        <div class="col mb-4">
+            <div class="card h-100 rounded-lg">
+                <div class="card-header">
+                    <h5 class="card-title main-text">{{ event.title }}</h5>
+                    <div class="square-image" style="width: 100%; max-height: 100%; overflow: hidden;">
+                        <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image" style="width: 100%; height: auto; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="card-body text-center d-flex flex-column">
+                    <p class="card-text" style="max-height: 120px; overflow-y: auto;">{{ event.description }}</p>
+                    <!-- <a class="btn btn-primary mb-auto" href="{% url 'event_details' event.id %}" style="width: 100%;">See more details</a> -->
+                    <div class="mt-auto">
+                        <a class="btn rounded main-color text-white mb-auto" href="{% url 'event_details' event.id %}" style="width: 100%;">See more details</a>
+                        <div class="row py-1 justify-content-center">
+                            {% if request.user.is_authenticated and request.user.is_artist and request.user not in event.artists.all %}
+                            <a href="{% url 'event_apply' event.id %}" class="text-dark text-decoration-none col-6 pr-1">
+                                <button class="btn rounded btn-outline-dark btn-block p-0" style="font-size: 15px;">Apply for this event!</button>
+                            </a>
+                            {% endif %}
+                            <a class="gold rounded col-6 text-dark text-decoration-none" href="{% url 'buy_ticket' event.id %}">Buy Ticket</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
+
 {% endblock %}
