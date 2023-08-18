@@ -1,11 +1,8 @@
 import datetime
-
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event, AppUser, Ticket, Application
+from .models import Event, AppUser, Ticket, Application, Post
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
 from .forms import LoginForm, RegisterForm
 
 
@@ -118,10 +115,11 @@ def create_event(request):
         date = request.POST['date']
         desc = request.POST['description']
         ticketnum = request.POST['ticketsNum']
+        ticketsPrice = request.POST['ticketsPrice']
         artists = AppUser.objects.filter(id__in=request.POST.getlist('artists[]'))
         organizer = request.user
         event = Event.objects.create(title=title, location=loc, image=img, date=date, description=desc,
-                                     available_tickets=ticketnum, organizer=organizer)
+                                     ticketsPrice=ticketsPrice, available_tickets=ticketnum, organizer=organizer)
         event.artists.set(artists)
         event.save()
         return redirect('index')
@@ -157,18 +155,16 @@ def event_applications(request, event_id):
         return render(request, 'event_applications.html', {"applications": apps})
 
 
-def artist_profile(request, artist_id):
-    artist = get_object_or_404(AppUser, pk=artist_id)
-
-    print(artist_id)
-    return render(request, 'artist_profile.html', {'artist': artist})
-
-
-def organizer_profile(request, organizer_id):
-    organizer = get_object_or_404(AppUser, pk=organizer_id)
-
-    print(organizer_id)
-    return render(request, 'organizer_profile.html', {'organizer': organizer})
+def profile(request, user_id):
+    user = get_object_or_404(AppUser, pk=user_id)
+    if user.is_artist:
+        event_num = Event.objects.filter(artists__id=user_id).count()
+    elif user.is_organizer:
+        event_num = Event.objects.filter(organizer_id=user_id).count()
+    else:
+        event_num = Ticket.objects.filter(user_profile_id=user_id).distinct().count()
+    posts = Post.objects.filter(author_id=user_id)
+    return render(request, 'profile.html', {'user': user, 'event_num': event_num, 'posts': posts})
 
 
 def event_details(request, event_id):
@@ -204,4 +200,14 @@ def deny_application(request, application_id):
 def my_applications(request):
     applications = Application.objects.filter(artist=request.user)
     return render(request, 'my_applications.html', {"applications": applications})
+
+
+def add_post(request):
+    file = request.FILES['file']
+    descr = request.POST['descr']
+    author = request.user
+    date = datetime.datetime.now()
+    post = Post.objects.create(file=file, date=date, description=descr, author=author)
+    post.save()
+    return redirect('profile', user_id=request.user.id)
 

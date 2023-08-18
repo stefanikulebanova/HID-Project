@@ -44,7 +44,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout
         </a>
-                    <a class="dropdown-item" href="#">My Profile
+                    <a class="dropdown-item" href="{% url 'profile' request.user.id %}">My Profile
         </a> {% if user.is_artist %}
                     <a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a> {% endif %}
                 </div>

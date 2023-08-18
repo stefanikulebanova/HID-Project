@@ -8,8 +8,8 @@
         </div>
         <div class="card-body">
             <p class="card-text">{{ artist.bio }}</p>
-            {# <button class="btn rounded main-color p-0" style="width: 100%;" #} {# href="{% url 'artist_profile' %}" #} {#>Go to artist's profile page</button>#}
-            <a class="btn rounded main-color p-0" style="width: 100%;" href="{% url 'artist_profile' artist.id %}">
+            {# <button class="btn rounded main-color p-0" style="width: 100%;" #} {# href="{% url 'profile' %}" #} {#>Go to artist's profile page</button>#}
+            <a class="btn rounded main-color p-0" style="width: 100%;" href="{% url 'profile' artist.id %}">
                         Go to artist's profile page
                     </a>
             <div class="row py-1 px-3 justify-content-center">
