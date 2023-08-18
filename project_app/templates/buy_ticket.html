@@ -1,13 +1,100 @@
-{% extends "base_generic.html" %} {% block content %}
-<p>ID: {{ event.id }}</p>
-<p>Title: {{ event.title }}</p>
-<p>Available Tickets: {{ event.available_tickets }}</p>
-<p>Description: {{ event.description }}</p>
-<p>Image (Local URL): {{ event.image }}</p>
-<form method="post" action="{% url 'buy_ticket' event.id %}">
-        {% csrf_token %}
-        <label for="number_of_tickets">Number of Tickets</label>
-        <input id="number_of_tickets" type="number" name="number_of_tickets" required>
-        <button class="btn btn-primary" type="submit">Buy</button>
-    </form>
+{% extends "base_generic.html" %}
+{% block content %}
+    <style>
+
+        span {
+            cursor: pointer;
+        }
+
+        .number {
+            margin: 100px;
+        }
+
+        .minus, .plus {
+            width: 20px;
+            height: 20px;
+            background: #f2f2f2;
+            border-radius: 4px;
+            padding: 8px 5px 8px 5px;
+            border: 1px solid #ddd;
+        {#display: inline-block;#} vertical-align: middle;
+            text-align: center;
+        }
+
+        input {
+            height: 34px;
+            width: 100px;
+            text-align: center;
+            font-size: 26px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+    <div class="container">
+{#    <h1 style="text-align: center; margin: 70px"  >Buy Tickets for {{ event.title }}</h1>#}
+        <div class="row">
+            <!-- Left Div -->
+            <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
+                <div class="card-header">
+                    <h5 class="card-title main-text">{{ event.title }}</h5>
+                    <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image"
+                         style="max-width: 100%;">
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ event.description }}</p>
+                    <a class="btn rounded main-color p-0" style="width: 100%;"
+                       href="{% url 'event_details' event.id %}">
+                        See more details..
+                    </a>
+                    <h4 style="text-align: center; margin-top: 10px">
+                        Price: {{ event.ticket_price }} MKD
+                    </h4>
+
+                </div>
+            </div>
+
+            <!-- Right Form -->
+            <div class="col-7 d-flex justify-content-center align-items-center">
+                <form method="post" action="{% url 'buy_ticket' event.id %}">
+                    {% csrf_token %}
+                    {% if event.available_tickets > 0 %}
+                        <div class="number" id="number">
+                            <span class="minus">-</span>
+                            <input type="number" id="number_of_tickets" value="1" name="number_of_tickets"/>
+                            <span class="plus">+</span>
+                            <button class="btn btn-primary" type="submit">Purchase</button>
+                        </div>
+                    {% else %}
+                        <div class="number" id="number">
+                            <button class="btn btn-danger" type="button" disabled>Sold Out</button>
+                        </div>
+
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.minus').click(function () {
+                var $input = $(this).parent().find('input');
+                var count = parseInt($input.val()) - 1;
+                count = count < 1 ? 1 : count;
+                $input.val(count);
+                $input.change();
+                return false;
+            });
+            $('.plus').click(function () {
+                var $input = $(this).parent().find('input');
+                $input.val(parseInt($input.val()) + 1);
+                $input.change();
+                return false;
+            });
+        });
+    </script>
 {% endblock %}
