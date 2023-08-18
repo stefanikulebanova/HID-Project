@@ -80,12 +80,6 @@ def buy_ticket(request, event_id):
         event.available_tickets -= int(number_of_tickets)
         event.save()
 
-        print(event)
-        print(AppUser)
-        print(datetime.date.today())
-
-        print(request.user.pk)
-
         app_user = get_object_or_404(AppUser, pk=request.user.pk)
 
         ticket = Ticket(event=event, user_profile=app_user)
