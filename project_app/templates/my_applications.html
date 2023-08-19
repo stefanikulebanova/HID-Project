@@ -1,13 +1,31 @@
 {% extends "base_generic.html" %} {% block content %}
-<div class="container mt-4 card-group mx-5 align-content-center">
+<div class="container mt-4">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
 {% for app in applications %}
-    <div class="card">
-        <h5 class="card-header">Application for: {{ app.event.title }}</h5>
-        <div class="card-body">
-            <h5 class="card-title">Status: <span id="status">{{ app.status }}</span></h5>
-            <p class="card-text">Date applied: {{ app.date }}</p>
-        </div>
+       <div class="card">
+         <img src="{{ MEDIA_URL }}{{ app.event.image.url }}" class="card-img-top" alt="Cover image" style="width: 100%; height: auto; object-fit: cover;">
+      <div class="card-body">
+          <div class="row">
+              <div class="col-6">
+                  <h5 class="card-title">Application for: <a class="main-text text-decoration-none" href="{% url 'event_details' app.event.id %}">{{ app.event.title }}</a></h5>
+                  <span><h5 class="d-inline">Status: <span class="font-weight-normal" id="status">{{ app.status }}</span></h5></span>
+              </div>
+              <span class="col-6 border-left"><h5>Date applied:</h5> <span>{{app.apply_date}}</span></span>
+          </div>
+        <p class="card-text">
+        </p>
+      </div>
     </div>
     {% endfor %}
+    </div>
  </div>
+<script>
+
+  if (document.getElementById('status').value = 'Denied') {
+    document.getElementById('status').style.color = "Red";
+  }
+  else if (document.getElementById('status').value = 'Accepted'){
+    document.getElementById('status').style.color = "Green";
+  }
+</script>
 {% endblock %}
