@@ -33,7 +33,7 @@
         }
     </style>
     <div class="container">
-{#    <h1 style="text-align: center; margin: 70px"  >Buy Tickets for {{ event.title }}</h1>#}
+        {#    <h1 style="text-align: center; margin: 70px"  >Buy Tickets for {{ event.title }}</h1>#}
         <div class="row">
             <!-- Left Div -->
             <div class="col-4 card mr-4 px-2 py-3 rounded-lg">
@@ -51,50 +51,70 @@
                     <h4 style="text-align: center; margin-top: 10px">
                         Price: {{ event.ticket_price }} MKD
                     </h4>
-
+                    <input type="hidden" id="multiplier" value="{{ event.ticket_price }}"/>
                 </div>
             </div>
 
             <!-- Right Form -->
             <div class="col-7 d-flex justify-content-center align-items-center">
-                <form method="post" action="{% url 'buy_ticket' event.id %}">
+                <form method="post" action="{% url 'buy_ticket' event.id %}" class="round-card whited">
                     {% csrf_token %}
-                    {% if event.available_tickets > 0 %}
-                        <div class="number" id="number">
+                    <div class="text-center"> <!-- Center the "Total" text -->
+                        {% if event.available_tickets > 0 %}
+                            <h1 style="margin-top: 15px">Total: <span id="total" class="main-text"></span><span class="main-text"> MKD</span></h1>
+                        {% endif %}
+                    </div>
+                    <div class="number" id="number">
+                        {% if event.available_tickets > 0 %} <!-- Only show input field when tickets are available -->
                             <span class="minus">-</span>
                             <input type="number" id="number_of_tickets" value="1" name="number_of_tickets"/>
                             <span class="plus">+</span>
-                            <button class="btn btn-primary" type="submit">Purchase</button>
-                        </div>
-                    {% else %}
-                        <div class="number" id="number">
+                            <button class="btn gold rounded" type="submit">Purchase</button>
+                        {% else %}
                             <button class="btn btn-danger" type="button" disabled>Sold Out</button>
-                        </div>
-
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </form>
-
             </div>
+
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Minus and plus buttons functionality
             $('.minus').click(function () {
                 var $input = $(this).parent().find('input');
                 var count = parseInt($input.val()) - 1;
                 count = count < 1 ? 1 : count;
                 $input.val(count);
                 $input.change();
+                updateTotal(); // Call the function to update the total
                 return false;
             });
             $('.plus').click(function () {
                 var $input = $(this).parent().find('input');
                 $input.val(parseInt($input.val()) + 1);
                 $input.change();
+                updateTotal(); // Call the function to update the total
                 return false;
             });
+
+            // Function to update the total
+            function updateTotal() {
+                const numberOfTicketsInput = document.getElementById('number_of_tickets');
+                const multiplierInput = document.getElementById('multiplier');
+                const totalSpan = document.getElementById('total');
+                let total = parseInt(numberOfTicketsInput.value) * parseInt(multiplierInput.value);
+                totalSpan.textContent = total;
+            }
+
+            // Initial total value
+            updateTotal();
+
+            // Event listeners for input changes
+            $('#number_of_tickets, #multiplier').on('input', updateTotal);
         });
     </script>
 {% endblock %}
