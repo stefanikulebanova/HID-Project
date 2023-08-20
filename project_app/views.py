@@ -1,4 +1,6 @@
 import datetime
+
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event, AppUser, Ticket, Application, Post
 from django.contrib import messages
@@ -92,9 +94,16 @@ def buy_ticket(request, event_id):
 
 def tickets(request):
     user = get_object_or_404(AppUser, pk=request.user.pk)
-    tickets_by_user = Ticket.objects.filter(user_profile=user)
+    # ticket_counts = Ticket.objects.filter(user_profile=user)
 
-    return render(request, 'tickets.html', {'tickets': tickets_by_user})
+    ticket_counts = (
+        Ticket.objects
+        .filter(user_profile=user)
+        .values('event__title', 'event__description', 'event__date','event__image')
+        .annotate(count=Count('id'))
+    )
+
+    return render(request, 'tickets.html', {'tickets': ticket_counts})
 
 
 def create_event(request):
@@ -179,7 +188,8 @@ def accept_application(request, application_id):
     event.artists.add(request.user)
     event.save()
     apps = Application.objects.filter(event=event, status="Waiting")
-    return render(request, 'event_applications.html', {"applications": apps, "feedback": "Successfully accepted the application!"})
+    return render(request, 'event_applications.html',
+                  {"applications": apps, "feedback": "Successfully accepted the application!"})
 
 
 def deny_application(request, application_id):
@@ -204,4 +214,3 @@ def add_post(request):
     post = Post.objects.create(file=file, date=date, description=descr, author=author)
     post.save()
     return redirect('profile', user_id=request.user.id)
-

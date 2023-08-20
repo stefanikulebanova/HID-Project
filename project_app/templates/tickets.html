@@ -1,5 +1,27 @@
-{% extends "base_generic.html" %} {% block content %} {% for ticket in tickets %}
-<p>{{ ticket.event.title }}</p>
-<p>{{ ticket.user_profile.username }}</p>
-<p>{{ ticket.purchase_date.date }}</p>
-{% endfor %} {% endblock %}
+{% extends "base_generic.html" %} {% block content %}
+    <div class="container">
+        {% for ticket in tickets %}
+            
+            <div class="row round-card whited" style="margin-bottom: 15px">
+                <div class="col-md-4 ">
+                    <div class="card">
+                        <img src="{{ MEDIA_URL }} {{ image }}" class="card-img-top" alt="Event Image">
+                        <div class="card-body ">
+                            <h5 class="card-title main-text">{{ ticket.event__title }}</h5>
+                            <p class="card-text">{{ ticket.event__description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <p><b>Date:</b> {{ ticket.event__date }}</p>
+                    <p><b>Number of tickets:</b> {{ ticket.count }}</p>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="{{ MEDIA_URL }}{{ ticket.qr_code.url }}" alt="QR Code">
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+{% endblock %}
+
