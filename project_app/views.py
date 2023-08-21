@@ -99,7 +99,7 @@ def tickets(request):
     ticket_counts = (
         Ticket.objects
         .filter(user_profile=user)
-        .values('event__title', 'event__description', 'event__date','event__image')
+        .values('event__title', 'event__description', 'event__date', 'event__image', 'qr_code')
         .annotate(count=Count('id'))
     )
 
@@ -155,7 +155,7 @@ def event_applications(request, event_id):
     event = Event.objects.get(id=event_id)
     apps = Application.objects.filter(event=event)
     if request.method == 'GET':
-        return render(request, 'event_applications.html', {"applications": apps})
+        return render(request, 'event_applications.html', {"applications": apps, "event": event})
 
 
 def profile(request, user_id):
