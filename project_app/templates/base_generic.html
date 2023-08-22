@@ -61,7 +61,7 @@
     </nav>
     <div class="mx-4">
         <div class="mx-2 my-3 d-flex justify-content-center align-items-center">
-            {% if request.user.is_authenticated and request.user.is_organizer and request.path == '/' %}
+            {% if request.user.is_authenticated and request.user.is_organizer %}
             <div class="main-color rounded mx-5 px-2 text-center">
                 <a href="/create_event" class="text-dark text-decoration-none">
                     <span class="text-white">Add Event <i class="bi bi-plus-square"></i></span>
