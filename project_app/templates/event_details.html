@@ -1,17 +1,128 @@
 {% extends "base_generic.html" %} {% block content %}
-<div class="container rounded main-color">
+<div class="container rounded main-color py-5">
     <div class="row justify-content-center align-items-center" style="min-height: 50vh;">
-        <div class="col-md-8 py-5 text-center text-light">
+        <div class="col-md-8 text-center text-light">
             <h1>{{ event.title }}</h1>
             <h4>{{ event.location }}, {{ event.date.date|date:"d.m.Y" }}</h4>
             <hr>
             <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image" style="max-width: 70%;">
             <div class="col-md-12 py-3 px-5 d-flex align-items-center justify-content-center text-center text-light" style="font-size: 1.1em">
-                {{ event.description }}
+                {{ event.description|safe }}
+            </div>
+            <div class="col-md-12 py-2 px-5 d-flex align-items-center justify-content-center text-center">
+                {% if request.user.is_authenticated and request.user.is_artist and request.user not in event.artists.all %}
+                <a href="{% url 'event_apply' event.id %}" class="text-decoration-none col-6 pr-1">
+                    <button class="btn rounded btn-outline-light btn-block" style="font-size: 15px;">Apply for this event!</button>
+                </a>
+                {% endif %} {% if event.available_tickets == 0 %}
+                <button class="btn btn-danger col-6" type="button" disabled>Sold Out</button> {% else %}
+                <div class="align-items-center">
+                    {% if 10 > event.available_tickets %}
+                    <h5 class="text-danger">Hurry! Only {{ event.available_tickets }} left!</h5>
+                    {% endif %}
+                    <a href="{% url 'buy_ticket' event.id %}" class="btn btn-dark btn-lg">Buy Tickets</a>
+                </div>
+                {% endif %}
             </div>
             <hr>
         </div>
     </div>
-</div>
+    <div class="row justify-items-center align-content-center">
+        <div class="py-2 rounded bg-dark col-md-8 mx-auto">
+            {% if event.artists.count > 1 %}
+            <div class="row justify-content-center">
+                <div class="text-center">
+                    <h4 class="text-light">Featuring:</h4>
+                </div>
+                <div id="artist-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for artist in event.artists.all %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <a href="{% url 'profile' artist.id %}">
+                                <div class="d-flex flex-column align-items-center">
+                                    <div class="carousel-image">
+                                        <img src="{{ MEDIA_URL }}{{ artist.image.url }}" class="d-block w-25 mx-auto" alt="{{ artist.username }}">
+                                    </div>
+                                    <div class="d-none d-md-block text-light">
+                                        <h5>{{ artist.username }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
 
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#artist-carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#artist-carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                    <br><br>
+                    <ol class="carousel-indicators">
+                        {% for artist in event.artists.all %}
+                        <li data-target="#artist-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-8 py-5">
+                    <div class="text-center">
+                        <h4 class="text-light">Featuring: </h4>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <a href="{% url 'profile' event.artists.first.id %}">
+                                <img src="{{ MEDIA_URL }}{{ event.artists.first.image.url }}" class="d-block w-100" alt="{{ event.artists.first.username }}">
+                            </a>
+                        </div>
+                        <div class="col-md-8 text-center align-items-center">
+                            <div>
+                                <h4 class="text-light">{{ event.artists.first.username }}</h4>
+                                <div class="overflow-auto" style="max-height: 10vh;">
+                                    <p class="text-light">{{ event.artists.first.bio }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-md-8 py-5">
+                    <div class="text-center">
+                        <h4 class="text-light">Brought to you by:</h4>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <a href="{% url 'profile' event.organizer.id %}">
+                                <img src="{{ MEDIA_URL }}{{ event.organizer.image.url }}" class="d-block w-100" alt="{{ event.organizer.username }}">
+                            </a>
+                        </div>
+                        <div class="col-md-8 text-center">
+                            <div>
+                                <h4 class="text-light align-self-start">{{ event.organizer.username }}</h4>
+                                <div class="overflow-auto align-self-end" style="max-height: 10vh;">
+                                    <p class="text-light">{{ event.organizer.bio }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<script>
+    $('.carousel').carousel({
+        interval: 5000
+    })
+</script>
 {% endblock %}

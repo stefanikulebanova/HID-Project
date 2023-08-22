@@ -78,14 +78,14 @@ def buy_ticket(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
     if request.method == 'POST':
-        number_of_tickets = request.POST.get('number_of_tickets')
-        event.available_tickets -= int(number_of_tickets)
+        number_of_tickets = int(request.POST.get('number_of_tickets', 1))
+        event.available_tickets -= number_of_tickets
         event.save()
 
         app_user = get_object_or_404(AppUser, pk=request.user.pk)
-
-        ticket = Ticket(event=event, user_profile=app_user)
-        ticket.save()
+        for i in range(0, number_of_tickets):
+            ticket = Ticket(event=event, user_profile=app_user)
+            ticket.save()
 
         return redirect('purchase_confirm')
 
@@ -93,22 +93,13 @@ def buy_ticket(request, event_id):
 
 
 def tickets(request):
-    user = get_object_or_404(AppUser, pk=request.user.pk)
-    # ticket_counts = Ticket.objects.filter(user_profile=user)
-
-    ticket_counts = (
-        Ticket.objects
-        .filter(user_profile=user)
-        .values('event__title', 'event__description', 'event__date', 'event__image', 'qr_code')
-        .annotate(count=Count('id'))
-    )
-
-    return render(request, 'tickets.html', {'tickets': ticket_counts})
+    tickets = Ticket.objects.filter(user_profile=request.user)
+    return render(request, 'tickets.html', {'tickets': tickets})
 
 
 def create_event(request):
     if request.method == 'GET':
-        artists = AppUser.objects.filter(is_artist="True")
+        artists = AppUser.objects.filter(is_artist=True)
         print(artists)
         return render(request, 'create_event.html', {"artists": artists})
     elif request.method == "POST":
@@ -207,10 +198,13 @@ def my_applications(request):
 
 
 def add_post(request):
-    file = request.FILES['file']
     descr = request.POST['descr']
     author = request.user
     date = datetime.datetime.now()
-    post = Post.objects.create(file=file, date=date, description=descr, author=author)
+    if 'file' in request.FILES and request.files['file']:
+        file = request.FILES['file']
+        post = Post.objects.create(file=file, date=date, description=descr, author=author)
+    else:
+        post = Post.objects.create(date=date, description=descr, author=author)
     post.save()
     return redirect('profile', user_id=request.user.id)

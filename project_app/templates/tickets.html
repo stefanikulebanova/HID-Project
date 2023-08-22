@@ -1,27 +1,29 @@
 {% extends "base_generic.html" %} {% block content %}
-    <div class="container">
-        {% for ticket in tickets %}
-            
-            <div class="row round-card whited" style="margin-bottom: 15px">
-                <div class="col-md-4 ">
-                    <div class="card">
-                        <img src="/data/{{ ticket.event__image }}" class="card-img-top" alt="Event Image">
-                        <div class="card-body ">
-                            <h5 class="card-title main-text">{{ ticket.event__title }}</h5>
-                            <p class="card-text">{{ ticket.event__description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <p><b>Date:</b> {{ ticket.event__date }}</p>
-                    <p><b>Number of tickets:</b> {{ ticket.count }}</p>
-                </div>
-                <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <img src="{{ MEDIA_URL }}{{ ticket.qr_code }}" alt="QR Code">
+<div class="container">
+    {% for ticket in tickets %}
+    <div class="round-card whited mb-4">
+        <div class="row align-items-center px-3">
+            <div class="col-md-4 d-none d-md-block">
+                <div class="bg-transparent border-0 p-2">
+                    <img src="{{ ticket.event.image.url }}" class="card-img-top" alt="Event Image" style="max-height: 20vw;">
                 </div>
             </div>
-
-        {% endfor %}
+            <div class="col-8 col-md-4 d-flex flex-column align-items-center text-center">
+                <h2 class="mb-3"> {{ ticket.event.title }} </h2>
+                <div clas="mb-3">
+                    <p><b>Date:</b> {{ ticket.event.date }}</p>
+                </div>
+                <div class="justify-content-center d-flex flex-wrap ">
+                    {% for artist in ticket.event.artists.all %}
+                    <h5 class="mx-2">{{ artist.username }}</h5>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-4 col-md-4 d-flex align-items-center justify-content-center" style=" height:80%;">
+                <img src="{{ MEDIA_URL }}{{ ticket.qr_code.url }}" alt="QR Code" style="max-width: 20vw;">
+            </div>
+        </div>
     </div>
+    {% endfor %}
+</div>
 {% endblock %}
-

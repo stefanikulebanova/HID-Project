@@ -1,33 +1,79 @@
 {% extends "base_generic.html" %} {% block content %}
-<div class="main-color rounded mt-4 text-center">
-    <h5>Create New Event</h5>
-    <form class="row px-3 py-3" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="col-4">
-            <label for="title">Title: </label><input id="title" name="title" type="text">
-            </br>
-            <label for="date">Date: </label><input id="date" name="date" type="datetime-local">
-              </br>
-            <label for="description">Description: </label><input id="description" name="description" type="text">
-              </br>
-            <label for="location">Location: </label><input id="location" name="location" type="text">
+<style>
+    .border-bottom-white {
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid white;
+        outline: none;
+    }
+    
+    .form-control.bg-transparent.border-bottom-white {
+        caret-color: white;
+        color: white;
+    }
+    
+    .form-group label {
+        color: white;
+    }
+    
+    .js-example-basic-multiple {
+        color: white;
+    }
+</style>
+<div class="container mx-auto">
+    <div class="row justify-content-center">
+        <div class="main-color rounded mt-4 text-center py-4 col-md-10">
+            <h3 class="text-light">Create New Event</h3>
+            <form class="row p-5" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input id="title" name="title" type="text" class="form-control bg-transparent border-bottom-white">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input id="date" name="date" type="datetime-local" class="form-control bg-transparent border-bottom-white">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input id="description" name="description" type="text" class="form-control bg-transparent border-bottom-white">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input id="location" name="location" type="text" class="form-control bg-transparent border-bottom-white">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image:</label>
+                        <input type="file" name="image" class="form-control bg-transparent border-bottom-white">
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="artists">Add artists to event:</label>
+                        <select id="artists" class="js-example-basic-multiple form-control bg-transparent border-bottom-white" name="artists[]" multiple="multiple">
+                    {% for user in artists %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketsNum">Number of Tickets:</label>
+                        <input id="ticketsNum" name="ticketsNum" type="number" class="form-control bg-transparent border-bottom-white">
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketsPrice">Ticket Price:</label>
+                        <input id="ticketsPrice" name="ticketsPrice" type="number" min=10 value=10 class="form-control bg-transparent border-bottom-white">
+                    </div>
+                </div>
+            </form>
+            <div class="row justify-content-center">
+                <button class="mt-2 btn border-white text-white mx-3" type="submit" value="Create Event">Create Event</button>
+                <a class="mt-2 btn border-white text-white mx-3" href="javascript:history.go(-1)">Cancel</a>
+            </div>
         </div>
-        <div class="col-4">
-            <input type="file" name="image" placeholder="Image">
-              </br>
-            <label for="artists">Add artists to event:</label>
-             <select id="artists" class="js-example-basic-multiple" name="artists[]" multiple="multiple">
-                 {% for user in artists %}
-                  <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
-                {% endfor %}
-             </select>
-        </div>
-        <div class="col-4">
-               <label for="ticketsNum">ticketsNum: </label><input id="ticketsNum" name="ticketsNum" type="number">
-              </br>
-               <label for="ticketsPrice">ticketsPrice: </label><input id="ticketsPrice" name="ticketsPrice" type="number">
-        </div>
-        <button class="mt-2" type="submit" value="Create Event">Create Event</button>
-    </form>
+    </div>
 </div>
 {% endblock %}
