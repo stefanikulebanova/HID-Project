@@ -1,106 +1,118 @@
 {% extends "base_generic.html" %} {% block content %}
-<style>
-    .plus-minus-input .input-group-button .circle {
-        border-radius: 50%;
-        border-style: none;
-    }
-</style>
-<div class="container text-center pb-5">
-    <h2 class="my-4">Buy tickets for {{ event.title }}</h2>
-    <div class="col-md-10 mx-auto main-color rounded p-4">
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-4" style="min-height: 50vh;">
-                <div class="card mr-4 px-2 py-3 rounded-lg ">
-                    <div class="card-header">
-                        <h5 class="card-title main-text">{{ event.title }}</h5>
-                        <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image" style="max-width: 100%;">
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ event.description }}</p>
-                        <a class="btn rounded main-color p-0 text-white" style="width: 100%;" href="{% url 'event_details' event.id %}">
+    <style>
+        .plus-minus-input .input-group-button .circle {
+            border-radius: 50%;
+            border-style: none;
+        }
+
+    </style>
+    <div class="container text-center pb-5">
+        <h2 class="my-4">Buy tickets for {{ event.title }}</h2>
+        <div class="col-md-10 mx-auto main-color rounded p-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4" style="min-height: 50vh;">
+                    <div class="card mr-4 px-2 py-3 rounded-lg ">
+                        <div class="card-header">
+                            <h5 class="card-title main-text">{{ event.title }}</h5>
+                            <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image"
+                                 style="max-width: 100%;">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ event.description }}</p>
+                            <a class="btn rounded main-color p-0 text-white" style="width: 100%;"
+                               href="{% url 'event_details' event.id %}">
                                 See more details..
                             </a>
-                        <h4 style="text-align: center; margin-top: 10px">
-                            Price: {{ event.ticket_price }} MKD
-                        </h4>
-                        <input type="hidden" id="multiplier" value="{{ event.ticket_price }}" />
+                            <h4 style="text-align: center; margin-top: 10px">
+                                Price: {{ event.ticket_price }} MKD
+                            </h4>
+                            <input type="hidden" id="multiplier" value="{{ event.ticket_price }}"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-4">
-                    <div class="card mr-4 px-2 py-3 rounded-lg justify-content-center align-items-center" style="min-height: 50vh;">
-                        {% if event.available_tickets > 0 %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="number_of_tickets"><h5>Number of Tickets:</h5></label>
-                                <div class="input-group plus-minus-input justify-content-between">
-                                    <div class="input-group-button">
-                                        <button type="button" class="button hollow circle" data-quantity="minus" data-field="number_of_tickets">
-                                            <i class="bi bi-dash-lg" aria-hidden="true"></i>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <div class="card mr-4 px-2 py-3 rounded-lg justify-content-center align-items-center"
+                             style="min-height: 50vh;">
+                            {% if event.available_tickets > 0 %}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="number_of_tickets"><h5>Number of Tickets:</h5></label>
+                                        <div class="input-group plus-minus-input justify-content-between">
+                                            <div class="input-group-button">
+                                                <button type="button" class="button hollow circle" data-quantity="minus"
+                                                        data-field="number_of_tickets">
+                                                    <i class="bi bi-dash-lg" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <input type="number" id="number_of_tickets" name="number_of_tickets"
+                                                   value="1" min="1" max="{{ event.available_tickets }}" disabled>
+                                            <div class="input-group-button">
+                                                <button type="button" class="button hollow circle" data-quantity="plus"
+                                                        data-field="number_of_tickets">
+                                                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="text-danger" id="tickets-error"></p>
+                                    </div>
+                                    <p>Total Price: <span id="total-price">{{ event.ticket_price }}</span> MKD</p>
+                                    <div class="justify-content-between">
+                                        <a href="javascript:history.go(-1)" class="btn btn-outline-danger"
+                                           id="cancel-button">Cancel</a>
+                                        <button type="submit" class="btn btn-outline-success" id="purchase-button">
+                                            Continue
                                         </button>
                                     </div>
-                                    <input type="number" id="number_of_tickets" name="number_of_tickets" value="1" min="1" max="{{ event.available_tickets }}" disabled>
-                                    <div class="input-group-button">
-                                        <button type="button" class="button hollow circle" data-quantity="plus" data-field="number_of_tickets">
-                                            <i class="bi bi-plus-lg" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <p class="text-danger" id="tickets-error"></p>
-                            </div>
-                            <p>Total Price: <span id="total-price">{{ event.ticket_price }}</span> MKD</p>
-                            <div class="justify-content-between">
-                                <a href="javascript:history.go(-1)" class="btn btn-outline-danger" id="cancel-button">Cancel</a>
-                                <button type="submit" class="btn btn-outline-success" id="purchase-button">Continue</button>
-                            </div>
-                        </form>
-                        {% else %}
-                        <button class="btn btn-danger align-self-start w-100" type="button">Sold Out</button>
-                        <br><br>
-                        <a class="btn rounded main-color p-0 text-white align-self-end" style="width: 100%;" href="{% url 'index' %}">
-                            Browse for other events
-                        </a> {% endif %}
+                                </form>
+                            {% else %}
+                                <button class="btn btn-danger align-self-start w-100" type="button" disabled>Sold Out
+                                </button>
+                                <br><br>
+                                <a class="btn rounded main-color p-0 text-white align-self-end" style="width: 100%;"
+                                   href="{% url 'index' %}">
+                                    Browse for other events
+                                </a> {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('[data-quantity="plus"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            updateQuantity('plus');
-        });
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('[data-quantity="plus"]').addEventListener('click', function (e) {
+                e.preventDefault();
+                updateQuantity('plus');
+            });
 
-        document.querySelector('[data-quantity="minus"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            updateQuantity('minus');
-        });
+            document.querySelector('[data-quantity="minus"]').addEventListener('click', function (e) {
+                e.preventDefault();
+                updateQuantity('minus');
+            });
 
-        function updateQuantity(action) {
-            var inputField = document.getElementById('number_of_tickets');
-            var currentVal = parseInt(inputField.value);
-            var totalPriceElement = document.getElementById('total-price');
-            var totalPrice = parseInt(totalPriceElement.textContent);
-            var ticketPrice = parseInt("{{event.ticket_price}}");
-            var availableTickets = parseInt("{{event.available_tickets}}");
+            function updateQuantity(action) {
+                var inputField = document.getElementById('number_of_tickets');
+                var currentVal = parseInt(inputField.value);
+                var totalPriceElement = document.getElementById('total-price');
+                var totalPrice = parseInt(totalPriceElement.textContent);
+                var ticketPrice = parseInt("{{event.ticket_price}}");
+                var availableTickets = parseInt("{{event.available_tickets}}");
 
-            if (!isNaN(currentVal)) {
-                if (action === 'plus' && currentVal < availableTickets) {
-                    inputField.value = currentVal + 1;
-                    totalPriceElement.textContent = (totalPrice + ticketPrice);
-                } else if (action === 'minus' && currentVal > 1) {
-                    inputField.value = currentVal - 1;
-                    totalPriceElement.textContent = (totalPrice - ticketPrice);
+                if (!isNaN(currentVal)) {
+                    if (action === 'plus' && currentVal < availableTickets) {
+                        inputField.value = currentVal + 1;
+                        totalPriceElement.textContent = (totalPrice + ticketPrice);
+                    } else if (action === 'minus' && currentVal > 1) {
+                        inputField.value = currentVal - 1;
+                        totalPriceElement.textContent = (totalPrice - ticketPrice);
+                    }
+                } else {
+                    inputField.value = 1;
+                    totalPriceElement.textContent = ticketPrice;
                 }
-            } else {
-                inputField.value = 1;
-                totalPriceElement.textContent = ticketPrice;
             }
-        }
-    });
-</script>
+        });
+    </script>
 {% endblock %}
