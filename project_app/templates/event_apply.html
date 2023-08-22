@@ -21,25 +21,25 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="occupation">Occupation:</label>
-                    <input id="occupation" name="occupation" type="text" class="form-control bg-transparent border-bottom-white">
+                    <input id="occupation" name="occupation" type="text" class="form-control bg-transparent border-bottom-white" required>
                 </div>
                 <div class="form-group">
                     <label for="cv">CV:</label>
                     <div>
-                        <input type="file" id="cv" name="cv" class="text-white form-control bg-transparent border-bottom-white">
+                        <input type="file" id="cv" name="cv" class="text-white form-control bg-transparent border-bottom-white" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="motivation">Motivation:</label>
-                    <input type="text" id="motivation" name="motivation" class="form-control bg-transparent border-bottom-white">
+                    <input type="text" id="motivation" name="motivation" class="form-control bg-transparent border-bottom-white" required>
                 </div>
                 <div class="form-group">
                     <label for="phone_num">Phone number:</label>
-                    <input type="text" id="phone_num" name="phone_num" class="form-control bg-transparent border-bottom-white">
+                    <input type="text" id="phone_num" name="phone_num" class="form-control bg-transparent border-bottom-white" required>
                 </div>
                 <div class="row justify-content-around">
-                    <button class="mt-2 btn border-white text-white" type="submit" value="Apply">Apply</button>
-                    <a class="mt-2 btn border-white text-white" href="javascript:history.go(-1)">Cancel</a>
+                    <a class="mt-2 btn btn-outline-danger" href="javascript:history.go(-1)">Cancel</a>
+                    <button class="mt-2 btn btn-outline-light" type="submit" value="Apply">Apply</button>
                 </div>
             </form>
         </div>

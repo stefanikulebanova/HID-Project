@@ -16,9 +16,9 @@
             <p class="card-text"><span class="font-weight-bold">Occupation:</span> {{app.occupation}}</p>
             <p class="card-text"><span class="font-weight-bold">CV:</span> <a href="{{ MEDIA_URL }}{{app.cv.url}}">Download CV</a></p>
             <p class="card-text"><span class="font-weight-bold">Date:</span> {{app.date}}</p>
-            <div class="row justify-content-between px-5">
-            <a href="{% url 'deny_application' app.id %}" class="btn btn-danger">Deny</a>
-             <a href="{% url 'accept_application' app.id %}" class="btn btn-success bottom-right">Accept</a>
+            <div class="row justify-content-around px-5">
+            <a href="{% url 'deny_application' app.id %}" class="btn btn-outline-danger">Deny</a>
+             <a href="{% url 'accept_application' app.id %}" class="btn btn-outline-success bottom-right">Accept</a>
         </div>
         </div>
     </div>

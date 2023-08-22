@@ -157,7 +157,7 @@ def profile(request, user_id):
         event_num = Event.objects.filter(organizer_id=user_id).count()
     else:
         event_num = Ticket.objects.filter(user_profile_id=user_id).distinct().count()
-    posts = Post.objects.filter(author_id=user_id)
+    posts = Post.objects.filter(author_id=user_id).order_by('-date')
     return render(request, 'profile.html', {'user': user, 'event_num': event_num, 'posts': posts})
 
 
@@ -201,7 +201,7 @@ def add_post(request):
     descr = request.POST['descr']
     author = request.user
     date = datetime.datetime.now()
-    if 'file' in request.FILES and request.files['file']:
+    if 'file' in request.FILES and request.FILES['file']:
         file = request.FILES['file']
         post = Post.objects.create(file=file, date=date, description=descr, author=author)
     else:
