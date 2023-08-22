@@ -29,7 +29,7 @@ class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_profile = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     purchase_date = models.DateTimeField(auto_now_add=True)
-    qr_code = models.ImageField(upload_to="ticket_qr", default="./static/qrcode.png")
+    qr_code = models.ImageField(upload_to="ticket_qr", default="ticket_qr/qrcode.png")
     price = models.IntegerField(default=10)
 
 
@@ -45,7 +45,7 @@ class Application(models.Model):
 
 
 class Post(models.Model):
-    file = models.FileField(upload_to="posts")
+    file = models.FileField(upload_to="posts", blank = True)
     description = models.TextField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(AppUser, on_delete=models.CASCADE)

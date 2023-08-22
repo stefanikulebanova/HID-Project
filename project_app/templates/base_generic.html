@@ -16,7 +16,8 @@
     .main-text {
         color: #35706F;
     }
-    .max-width-filters{
+    
+    .max-width-filters {
         max-width: 115px;
     }
 </style>
@@ -25,10 +26,10 @@
     <!--navbar-->
     <nav class="navbar navbar-light main-color d-flex justify-content-between">
         <a class="navbar-brand" href="/">
-            <img src="{% static 'img.png' %}" width="30" height="30" alt="">
-            <span class="brand">Artégé</span>
+            <img src="{% static 'img.png' %}" height="40" alt="Brand">
+            <span class="brand" style="font-size: 1.3rem;">Artégé</span>
         </a>
-        <div class="row">
+        <div class="row px-5 align-items-center">
             <div class="col mx-n3">
                 <a href="{% url 'help' %}" style="color: black"><i class="bi bi-question gold rounded"></i></a>
             </div>
@@ -36,18 +37,15 @@
             <div class="mx-2 gold rounded px-2">
                 <i class="bi bi-ticket-detailed-fill"></i> <a href="{% url 'tickets' %}" style="color: black">My Tickets</a>
             </div>
-            {% if request.user.is_organizer %}
-            <div class="mr-2 gold rounded px-2">
-                <i class="bi bi-calendar2-event-fill"></i> <a href="{% url 'my_events' %}" style="color: black">My Events</a>
-            </div>
-            {% endif %}
             <div class="dropdown">
                 <button class="btn dropdown-toggle mr-3 whited rounded py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          <i class="bi bi-person-fill"></i>{{ request.user.username }}</button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     <a class="dropdown-item" href="{% url 'profile' request.user.id %}">My Profile</a> {% if request.user.is_artist %}
-                    <a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a> {% endif %}
+                    <a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a> {% endif %} {% if request.user.is_organizer %}
+                    <a class="dropdown-item" href="{% url 'my_events' %}">My Events</a> {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                 </div>
             </div>
             {% else %}
