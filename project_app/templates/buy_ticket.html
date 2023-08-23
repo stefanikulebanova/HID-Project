@@ -59,8 +59,8 @@
                                     </div>
                                     <p>Total Price: <span id="total-price">{{ event.ticket_price }}</span> MKD</p>
                                     <div class="justify-content-between">
-                                        <a href="javascript:history.go(-1)" class="btn btn-outline-danger"
-                                           id="cancel-button">Cancel</a>
+                                        <a class="btn btn-outline-danger"
+                                           id="cancel-button" data-toggle="modal" data-target="#confirmModal">Cancel</a>
                                         <button type="submit" class="btn btn-outline-success" id="purchase-button">
                                             Continue
                                         </button>
@@ -80,6 +80,25 @@
             </div>
         </div>
     </div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark" style="border-radius: 1rem;">
+            <div class="modal-body">
+                <div class="container d-flex rounded-lg justify-content-center align-content-center">
+                    <div class="p-2 text-center">
+                        <h4 class="text-light">Are you sure you want to cancel this?</h4>
+                        {% csrf_token %}
+                        <span class="text-danger">Warning:</span><span class="text-muted"> All progress will be lost.</span>
+                        <div class="d-flex justify-content-around mt-4">
+                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">Cancel</i></button>
+                            <button id="confirm" class="btn float-right px-3 btn-outline-light">Confirm</i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('[data-quantity="plus"]').addEventListener('click', function (e) {
