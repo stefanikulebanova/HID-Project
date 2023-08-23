@@ -70,8 +70,27 @@
                 </div>
             </form>
             <div class="row justify-content-center">
-                <a class="mt-2 btn btn-outline-danger mx-3" href="javascript:history.go(-1)">Cancel</a>
+                <button class="mt-2 btn btn-outline-danger mx-3" data-toggle="modal" data-target="#confirmModal">Cancel</button>
                 <button class="mt-2 btn btn-outline-light mx-3" type="submit" value="Create Event">Create Event</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark" style="border-radius: 1rem;">
+            <div class="modal-body">
+                <div class="container d-flex rounded-lg justify-content-center align-content-center">
+                    <div class="p-2 text-center">
+                        <h4 class="text-light">Are you sure you want to cancel this?</h4>
+                        {% csrf_token %}
+                        <span class="text-danger">Warning:</span><span class="text-muted"> All progress will be lost.</span>
+                        <div class="d-flex justify-content-around mt-4">
+                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">Cancel</i></button>
+                            <button id="confirm" class="btn float-right px-3 btn-outline-light">Confirm</i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

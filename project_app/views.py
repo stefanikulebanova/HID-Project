@@ -208,3 +208,8 @@ def add_post(request):
         post = Post.objects.create(date=date, description=descr, author=author)
     post.save()
     return redirect('profile', user_id=request.user.id)
+
+
+def delete_post(request, post_id):
+    Post.objects.filter(id=post_id).delete()
+    return redirect('profile', user_id=request.user.id)

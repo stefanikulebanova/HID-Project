@@ -43,6 +43,7 @@ urlpatterns = [
                   path('help/', views.help, name='help'),
                   path('profile/<int:user_id>/', views.profile, name='profile'),
                   path('add_post', views.add_post, name='add_post'),
+                  path('delete_post/<int:post_id>/', views.delete_post, name='delete_post'),
                   path('event_details/<int:event_id>', views.event_details, name='event_details'),
                   path('admin/', admin.site.urls),                  
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
