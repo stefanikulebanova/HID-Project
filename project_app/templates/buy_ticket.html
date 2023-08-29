@@ -90,8 +90,8 @@
                         {% csrf_token %}
                         <span class="text-danger">Warning:</span><span class="text-muted"> All progress will be lost.</span>
                         <div class="d-flex justify-content-around mt-4">
-                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">Cancel</i></button>
-                            <button id="confirm" class="btn float-right px-3 btn-outline-light">Confirm</i></button>
+                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">No, I do not want to cancel.</i></button>
+                            <a id="confirm" class="btn float-right px-3 btn-outline-light" href="{% url 'index' %}">Yes, I am sure.</i></a>
                         </div>
                     </div>
                 </div>
