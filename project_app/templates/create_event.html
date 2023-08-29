@@ -25,16 +25,16 @@
     <div class="row justify-content-center">
         <div class="main-color rounded mt-4 text-center py-4 col-md-10">
             <h3 class="text-light">Create New Event</h3>
-            <form class="row p-5" method="post" enctype="multipart/form-data">
+            <form role="form" class="row p-5" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input id="title" name="title" type="text" class="form-control bg-transparent border-bottom-white">
+                        <input id="title" name="title" type="text" class="form-control bg-transparent border-bottom-white" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Date:</label>
-                        <input id="date" name="date" type="datetime-local" class="form-control bg-transparent border-bottom-white">
+                        <input id="date" name="date" type="datetime-local" class="form-control bg-transparent border-bottom-white" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
@@ -42,11 +42,11 @@
                     </div>
                     <div class="form-group">
                         <label for="location">Location:</label>
-                        <input id="location" name="location" type="text" class="form-control bg-transparent border-bottom-white">
+                        <input id="location" name="location" type="text" class="form-control bg-transparent border-bottom-white" required>
                     </div>
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <input type="file" name="image" class="form-control bg-transparent border-bottom-white">
+                        <input id="image" type="file" name="image" class="form-control bg-transparent border-bottom-white" required>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -61,18 +61,18 @@
                     </div>
                     <div class="form-group">
                         <label for="ticketsNum">Number of Tickets:</label>
-                        <input id="ticketsNum" name="ticketsNum" type="number" class="form-control bg-transparent border-bottom-white">
+                        <input id="ticketsNum" name="ticketsNum" type="number" class="form-control bg-transparent border-bottom-white" required>
                     </div>
                     <div class="form-group">
                         <label for="ticketsPrice">Ticket Price:</label>
                         <input id="ticketsPrice" name="ticketsPrice" type="number" min=10 value=10 class="form-control bg-transparent border-bottom-white">
                     </div>
                 </div>
+                <div class="mt-4 mb-n3 justify-content-center col-12">
+                    <button class="mt-2 btn btn-outline-danger mx-3" data-toggle="modal" data-target="#confirmModal">Cancel</button>
+                    <button class="mt-2 btn btn-outline-light mx-3" type="submit" value="Create Event">Create Event</button>
+                </div>
             </form>
-            <div class="row justify-content-center">
-                <button class="mt-2 btn btn-outline-danger mx-3" data-toggle="modal" data-target="#confirmModal">Cancel</button>
-                <button class="mt-2 btn btn-outline-light mx-3" type="submit" value="Create Event">Create Event</button>
-            </div>
         </div>
     </div>
 </div>
@@ -86,8 +86,8 @@
                         {% csrf_token %}
                         <span class="text-danger">Warning:</span><span class="text-muted"> All progress will be lost.</span>
                         <div class="d-flex justify-content-around mt-4">
-                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">Cancel</i></button>
-                            <button id="confirm" class="btn float-right px-3 btn-outline-light">Confirm</i></button>
+                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal(this)">No, I do not want to cancel.</i></button>
+                            <a id="confirm" class="btn float-right px-3 btn-outline-light" href="{% url 'index' %}">Yes, I am sure.</i></a>
                         </div>
                     </div>
                 </div>
@@ -95,4 +95,9 @@
         </div>
     </div>
 </div>
+<script>
+     function closeModal(btn) {
+        $(btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement).modal('hide');
+    }
+</script>
 {% endblock %}

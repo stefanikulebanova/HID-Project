@@ -49,7 +49,7 @@
                             <div class="card p-2 mx-1 my-3 col-md-8" style="border-radius: 1rem;">
                                 {% if request.user == user %}
                                 <div>
-                                     <button class="btn float-right modal-click p-0" data-toggle="modal" id="post.id" data-target="#confirmModal">
+                                     <button class="btn float-right modal-click p-0" id="{{post.id}}" data-toggle="modal" onclick="replaceUrl(this.id)" data-target="#confirmModal">
                                          <i class="bi bi-trash"></i>
                                      </button>
                                 </div>
@@ -122,8 +122,8 @@
                         {% csrf_token %}
                         <span class="text-danger">Warning:</span><span class="text-muted"> This action is irreversible.</span>
                         <div class="d-flex justify-content-around mt-4">
-                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">Cancel</i></button>
-                            <button id="confirm" class="btn float-right px-3 btn-outline-light" href="">Confirm</i></button>
+                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal(this)">No, I do not want to delete.</i></button>
+                            <a id="confirm" class="btn float-right px-3 btn-outline-light" href="#">Yes, I am sure.</i></a>
                         </div>
                     </div>
                 </div>
@@ -132,18 +132,16 @@
     </div>
 </div>
 <script>
-    function closeModal() {
-        var modal = document.getElementById('postModal');
-        if (modal) {
-            $(modal).modal('hide'); // Use jQuery to hide the modal
-        }
+    function closeModal(btn) {
+        $(btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement).modal('hide');
     }
-{% comment %}
-    $(document).on("click", ".modal-click", function () {
-     var postId = $(this).data('id');
-     $(".modal-body #confirm").href("{% url 'delete_post' postId %}");
-});
-{% endcomment %}
+
+   function replaceUrl(postId) {
+     url_mask = "{% url 'delete_post' 1234 %}".replace(/1234/, postId)
+     console.log(document.getElementById("confirm"))
+     var link = document.getElementById("confirm");
+     link.setAttribute("href", url_mask);
+   }
 </script>
 
 {% endblock %}

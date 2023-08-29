@@ -61,9 +61,36 @@
                                     <div class="justify-content-between">
                                         <a class="btn btn-outline-danger"
                                            id="cancel-button" data-toggle="modal" data-target="#confirmModal">Cancel</a>
-                                        <button type="submit" class="btn btn-outline-success" id="purchase-button">
+                                        <a data-toggle="modal" data-target="#continueModal"
+                                                class="btn btn-outline-success" onclick="addPurchaseInfo()">
                                             Continue
-                                        </button>
+                                        </a>
+                                        <div class="modal fade" id="continueModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content bg-dark" style="border-radius: 1rem;">
+                                                <div class="modal-body">
+                                                    <div class="container d-flex rounded-lg justify-content-center align-content-center">
+                                                        <div class="p-2 text-center">
+                                                            <h4 class="text-light">Confirm your purchase</h4>
+                                                            {% csrf_token %}
+                                                            <span class="text-muted">Is this the correct amount?</span>
+                                                            <div class="text-light mt-2">
+                                                                <p class="m-0">Number of tickets: <span id="tix_num"></span></p>
+                                                                <p class="">Total Price: <span id="price"></span> MKD</p>
+                                                                </div>
+                                                            <div class="d-flex justify-content-around mt-4">
+                                                                <a class="btn float-right px-3 btn-outline-danger" onclick="closeModal(this)">Go back.</i></a>
+                                                               <button type="submit" data-toggle="modal" data-target="#continueModal"
+                                                                       class="btn btn-outline-success" id="purchase-button">
+                                                                    Confirm
+                                                               </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </form>
                             {% else %}
@@ -90,8 +117,8 @@
                         {% csrf_token %}
                         <span class="text-danger">Warning:</span><span class="text-muted"> All progress will be lost.</span>
                         <div class="d-flex justify-content-around mt-4">
-                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal()">Cancel</i></button>
-                            <button id="confirm" class="btn float-right px-3 btn-outline-light">Confirm</i></button>
+                            <button class="btn float-right px-3 btn-outline-danger" onclick="closeModal(this)">No, I do not want to cancel.</i></button>
+                            <a id="confirm" class="btn float-right px-3 btn-outline-light" href="{% url 'index' %}">Yes, I am sure.</i></a>
                         </div>
                     </div>
                 </div>
@@ -100,6 +127,9 @@
     </div>
 </div>
     <script>
+      function closeModal(btn) {
+        $(btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement).modal('hide');
+    }
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('[data-quantity="plus"]').addEventListener('click', function (e) {
                 e.preventDefault();
@@ -133,5 +163,12 @@
                 }
             }
         });
+
+        function addPurchaseInfo(){
+            var ticketNum = document.getElementById('number_of_tickets');
+            document.getElementById('tix_num').innerHTML = ticketNum.value
+            var price = document.getElementById('total-price');
+            document.getElementById('price').innerHTML = price.innerHTML
+        }
     </script>
 {% endblock %}
