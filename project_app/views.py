@@ -36,7 +36,7 @@ def login_user(request):
 
         # form is not valid or user is not authenticated
         messages.error(request, f'Invalid username or password')
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'login.html', {'form': form, 'msg': 'Invalid username or password'})
 
 
 def logout_user(request):
