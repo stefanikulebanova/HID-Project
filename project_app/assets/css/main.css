@@ -1,6 +1,5 @@
 .gold {
     background-color: #D4AF40;
-    max-width: 115px;
 }
 
 .main-color {
@@ -33,4 +32,27 @@
 
 .light-grey {
     background-color: #ededed;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.image-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.sold-out-banner {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #fc0339;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 18px;
 }

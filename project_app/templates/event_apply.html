@@ -64,4 +64,10 @@
         </div>
     </div>
 </div>
+<script>
+    function closeModal(btn) {
+        $(btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement).modal('hide');
+    }
+</script>
+
 {% endblock %}

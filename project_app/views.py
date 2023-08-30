@@ -74,7 +74,6 @@ def application_confirm(request):
 
 
 def buy_ticket(request, event_id):
-    # item = get_object_or_404(Item, pk=item_id)
     event = get_object_or_404(Event, pk=event_id)
 
     if request.method == 'POST':
