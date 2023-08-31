@@ -21,12 +21,21 @@
     font-size: 18px;
 }
 </style>
+ <form action="{% url 'search_event' %}" class="mb-2 d-flex justify-content-center" method="POST">
+      {% csrf_token %}
+          <div class="input-group rounded" style="max-width: 220px;">
+              <input type="search" class="form-control rounded" placeholder="Search by name" name="search" aria-label="Search" aria-describedby="search-addon" />
+              <button class="input-group-text border-0" id="search-addon">
+                <i class="bi bi-search"></i>
+              </button>
+          </div>
+    </form>
     <div class="container mt-5">
         <div class="row row-cols-1 row-cols-md-2 g-4">
             {% for event in events %}
                 {% if event.available_tickets > 0 %}
                     <div class="col mb-4">
-                        <div class="card h-100 rounded-lg">
+                        <div class="card h-100 rounded-lg" style="box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;">
                             <img src="{{ MEDIA_URL }}{{ event.image.url }}" class="card-img-top" alt="Cover image"
                                  style="width: 100%; height: auto; object-fit: cover;">
                             <div class="card-body d-flex flex-column">
