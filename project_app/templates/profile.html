@@ -67,7 +67,7 @@
                                         <source src="{{ MEDIA_URL }}{{ post.file.url }}" type="video/webm">
                                         Your browser does not support the video tag.
                                     </video>
-                                    {% elif post.extension == ".mp3" or post.extension == ".wav" %}
+                                    {% elif post.extension == ".mp3" or post.extension == ".wav" or post.extension == ".mpeg" %}
                                     <audio controls style="width:100%">
                                         <source src="{{ MEDIA_URL }}{{ post.file.url }}" type="audio/wav">
                                         <source src="{{ MEDIA_URL }}{{ post.file.url }}" type="audio/mpeg">
@@ -98,6 +98,12 @@
                         {% csrf_token %}
                         <div class="form-outline mb-4 mt-4">
                             <input type="file" id="file" name="file" class="form-control bg-transparent text-light border-0"/>
+                            <div class="ml-2">
+                                <small>Accepted formats:</small><br>
+                                <small class="ml-2">picture - .jpg,.jpeg,.png</small><br>
+                                <small class="ml-2">audio - .wav,.mpeg,.mp3</small><br>
+                                <small class="ml-2">video - .mp4,.mkv,.ogg,.webm</small>
+                                </div>
                         </div>
                         <div class="form-outline mb-4">
                             <textarea class="form-control" id="descr" name="descr" rows="4" placeholder="Share your thoughts" style="resize: none;" required></textarea>
