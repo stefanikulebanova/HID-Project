@@ -1,32 +1,35 @@
 {% extends "base_generic.html" %} {% block content %}
 <div class="container">
     <h4 class="text-center mb-3 mt-4 border-dark border-bottom rounded">My applications</h4>
+    {% if applications %}
     <div class="row row-cols-1 row-cols-md-2 g-4">
-{% for app in applications %}
-       <div class="card">
-         <img src="{{ MEDIA_URL }}{{ app.event.image.url }}" class="card-img-top" alt="Cover image" style="width: 100%; height: auto; object-fit: cover;">
-      <div class="card-body">
-          <div class="row">
-              <div class="col-6">
-                  <h5 class="card-title">Application for: <a class="main-text text-decoration-none" href="{% url 'event_details' app.event.id %}">{{ app.event.title }}</a></h5>
-                  <span><h5 class="d-inline">Status: <span class="font-weight-normal" id="status">{{ app.status }}</span></h5></span>
-              </div>
-              <span class="col-6 border-left"><h5>Date applied:</h5> <span>{{app.apply_date}}</span></span>
-          </div>
-        <p class="card-text">
-        </p>
-      </div>
+        {% for app in applications %}
+        <div class="card">
+            <img src="{{ MEDIA_URL }}{{ app.event.image.url }}" class="card-img-top" alt="Cover image" style="width: 100%; height: auto; object-fit: cover;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="card-title">Application for: <a class="main-text text-decoration-none" href="{% url 'event_details' app.event.id %}">{{ app.event.title }}</a></h5>
+                        <span><h5 class="d-inline">Status: <span class="font-weight-normal" id="status">{{ app.status }}</span></h5>
+                        </span>
+                    </div>
+                    <span class="col-6 border-left"><h5>Date applied:</h5> <span>{{app.apply_date}}</span></span>
+                </div>
+                <p class="card-text">
+                </p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    </div>
- </div>
+    {% else %}
+    <div class="text-center">You haven't applied to any events yet.</div>
+    {% endif %}
+</div>
 <script>
-
-  if (document.getElementById('status').value = 'Denied') {
-    document.getElementById('status').style.color = "Red";
-  }
-  else if (document.getElementById('status').value = 'Accepted'){
-    document.getElementById('status').style.color = "Green";
-  }
+    if (document.getElementById('status').value = 'Denied') {
+        document.getElementById('status').style.color = "Red";
+    } else if (document.getElementById('status').value = 'Accepted') {
+        document.getElementById('status').style.color = "Green";
+    }
 </script>
 {% endblock %}

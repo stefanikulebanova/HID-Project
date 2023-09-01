@@ -108,11 +108,11 @@ def create_event(request):
         date = request.POST['date']
         desc = request.POST['description']
         ticketnum = request.POST['ticketsNum']
-        ticketsPrice = request.POST['ticketsPrice']
+        ticket_price = request.POST['ticket_price']
         artists = AppUser.objects.filter(id__in=request.POST.getlist('artists[]'))
         organizer = request.user
         event = Event.objects.create(title=title, location=loc, image=img, date=date, description=desc,
-                                     ticketsPrice=ticketsPrice, available_tickets=ticketnum, organizer=organizer)
+                                     ticket_price=ticket_price, available_tickets=ticketnum, organizer=organizer)
         event.artists.set(artists)
         event.save()
         return redirect('index')

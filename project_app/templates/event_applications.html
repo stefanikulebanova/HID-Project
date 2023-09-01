@@ -1,21 +1,23 @@
 {% extends "base_generic.html" %} {% block content %}
 <div class="container">
     <h4 class="text-center mb-3 mt-4 border-dark border-bottom rounded">Applications for {{event.title}}</h4>
+    {% if applications %}
     <div class="row row-cols-1 row-cols-md-2 g-4">
+        
 {% for app in applications %}
 <div class="col mb-4">
     <div class="card rounded-lg text-center">
         <div class="card-header main-color">
             {# <input type="hidden" name="event_id" value="{{ event.id }}">#}
              <img src="{{ MEDIA_URL }}{{ app.artist.image.url }}" class="" alt="Profile image" style="max-width: 100px; height: auto;">
-            <h5 class="mt-2">Applicant: <span class="text-white">{{app.artist.first_name}} {{app.artist.last_name}}</span></h5>
+            <h5 class="mt-2">Applicant: <span class="text-white">{{app.artist.username}}</span></h5>
         </div>
         <div class="card-body light-grey">
             <p class="card-text"><span class="font-weight-bold">Motivation:</span> {{app.motivation}}</p>
             <p class="card-text"><span class="font-weight-bold">Phone number:</span> {{app.phone_number}}</p>
             <p class="card-text"><span class="font-weight-bold">Occupation:</span> {{app.occupation}}</p>
             <p class="card-text"><span class="font-weight-bold">CV:</span> <a href="{{ MEDIA_URL }}{{app.cv.url}}">Download CV</a></p>
-            <p class="card-text"><span class="font-weight-bold">Date:</span> {{app.date}}</p>
+            <p class="card-text"><span class="font-weight-bold">Date:</span> {{app.apply_date}}</p>
             <div class="row justify-content-around px-5">
             <a href="{% url 'deny_application' app.id %}" class="btn btn-outline-danger">Deny</a>
              <a href="{% url 'accept_application' app.id %}" class="btn btn-outline-success bottom-right">Accept</a>
@@ -24,6 +26,9 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+<div class="text-center">No one has applied to this event yet.</div>
+{% endif %}
     </div>
 </div>
     {% endblock %}
