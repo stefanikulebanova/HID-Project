@@ -14,8 +14,7 @@
                 <a href="{% url 'event_apply' event.id %}" class="text-decoration-none col-6 pr-1">
                     <button class="btn rounded btn-outline-light btn-block" style="font-size: 15px;">Apply for this event!</button>
                 </a>
-                {% endif %} {% if event.available_tickets < 1 %}
-                <button class="btn btn-danger col-6" type="button" disabled>Sold Out</button> {% else %}
+                {% endif %} {% if 1 > event.available_tickets %} <button class="btn btn-danger col-6" type="button" disabled>Sold Out</button> {% else %}
                 <div class="align-items-center">
                     {% if 10 > event.available_tickets %}
                     <h5 class="text-danger">Hurry! Only {{ event.available_tickets }} left!</h5>
@@ -83,7 +82,7 @@
                         <div class="col-md-8 text-center align-items-center">
                             <div>
                                 <h4 class="text-light">{{ event.artists.first.username }}</h4>
-                                <div class="overflow-auto" style="max-height: 10vh;">
+                                <div class="overflow-auto" style="max-height: 30vh;">
                                     <p class="text-light">{{ event.artists.first.bio }}</p>
                                 </div>
                             </div>

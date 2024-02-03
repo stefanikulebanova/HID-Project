@@ -20,7 +20,9 @@ class RegisterForm(UserCreationForm):
         user.is_organizer = self.cleaned_data.get('is_organizer')
         user.bio = self.cleaned_data.get('bio')
         user.phone_number = self.cleaned_data.get('phone_number')
-        user.image = self.cleaned_data.get('image')
+        image = self.cleaned_data.get('image')
+        if image:
+            user.image = image
 
         if commit:
             user.save()

@@ -6,7 +6,7 @@ from .models import Event, AppUser, Ticket, Application, Post
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .forms import LoginForm, RegisterForm
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -108,11 +108,11 @@ def create_event(request):
         date = request.POST['date']
         desc = request.POST['description']
         ticketnum = request.POST['ticketsNum']
-        ticketsPrice = request.POST['ticketsPrice']
+        ticket_price = request.POST['ticket_price']
         artists = AppUser.objects.filter(id__in=request.POST.getlist('artists[]'))
         organizer = request.user
         event = Event.objects.create(title=title, location=loc, image=img, date=date, description=desc,
-                                     ticketsPrice=ticketsPrice, available_tickets=ticketnum, organizer=organizer)
+                                     ticket_price=ticket_price, available_tickets=ticketnum, organizer=organizer)
         event.artists.set(artists)
         event.save()
         return redirect('index')
@@ -212,3 +212,23 @@ def add_post(request):
 def delete_post(request, post_id):
     Post.objects.filter(id=post_id).delete()
     return redirect('profile', user_id=request.user.id)
+
+
+def search_org(request):
+    search = request.POST['search']
+    organizers = AppUser.objects.filter(Q(is_organizer=True) & (Q(first_name__contains=search) |
+                                                                Q(last_name__contains=search) | Q(username__contains=search)))
+    return render(request, 'organizer_listing.html', {'organizers': organizers})
+
+
+def search_event(request):
+    search = request.POST['search']
+    events = Event.objects.filter(title__contains=search)
+    return render(request, "index.html", {"events": events})
+
+
+def search_art(request):
+    search = request.POST['search']
+    artists = AppUser.objects.filter(Q(is_artist=True) & (Q(first_name__contains=search) |
+                                                                Q(last_name__contains=search) | Q(username__contains=search)))
+    return render(request, 'artist_listing.html', {'artists': artists})

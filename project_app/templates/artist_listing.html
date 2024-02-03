@@ -1,9 +1,18 @@
 {% extends "base_generic.html" %} {% block content %}
+<form action="{% url 'search_art' %}" class="mb-2 d-flex justify-content-center" method="POST">
+    {% csrf_token %}
+    <div class="input-group rounded" style="max-width: 220px;">
+        <input type="search" class="form-control rounded" placeholder="Search by name" name="search" aria-label="Search" aria-describedby="search-addon" />
+        <button class="input-group-text border-0" id="search-addon">
+                <i class="bi bi-search"></i>
+              </button>
+    </div>
+</form>
 <div class="container mt-5">
     <div class="row row-cols-1 row-cols-lg-2 g-4">
         {% for artist in artists %}
         <div class="col mb-4">
-            <div class="card h-100">
+            <div class="card h-100" style="box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;">
                 <div class="row no-gutters">
                     <div class="col-md-5 d-flex flex-column justify-content-center pt-2">
                         <h5 class="card-title text-center">{{ artist.username }}</h5>
